@@ -1,0 +1,274 @@
+/* Landing page sections — keeps styles.css for shared site chrome. */
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.hero {
+  padding: 12vh 0 3.5rem;
+}
+
+.hero-logo {
+  margin-bottom: 1.5rem;
+}
+
+.brand-hero {
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.75rem, 5vw, 2.35rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 16ch;
+}
+
+.lede {
+  max-width: 32rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.25rem;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.85rem 1.35rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff7f2;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.btn-quiet {
+  color: var(--muted);
+  background: transparent;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-weight: 500;
+}
+
+.btn-quiet:hover {
+  color: var(--accent);
+}
+
+.section {
+  padding: 3.25rem 0;
+  border-top: 1px solid rgba(28, 23, 20, 0.08);
+}
+
+.section-label {
+  margin: 0 0 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.section h2 {
+  margin: 0 0 1.25rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.55rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.habit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.habit-list li {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.habit-list .n {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.story {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.story p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 38rem;
+}
+
+.story .pull {
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  max-width: 28rem;
+}
+
+.outcomes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0 0 1.25rem;
+}
+
+.outcome {
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.15rem, 2.6vw, 1.35rem);
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(28, 23, 20, 0.06);
+}
+
+.section .support {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+.rsvp-box {
+  margin-top: 0.5rem;
+}
+
+.rsvp-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.65rem;
+  max-width: 28rem;
+}
+
+.rsvp-form input[type="email"] {
+  width: 100%;
+  min-width: 0;
+  padding: 0.9rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(28, 23, 20, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.rsvp-form input[type="email"]:focus {
+  border-color: rgba(196, 106, 74, 0.55);
+  box-shadow: 0 0 0 3px rgba(196, 106, 74, 0.14);
+}
+
+.rsvp-form input[type="email"]:disabled {
+  opacity: 0.7;
+}
+
+.rsvp-msg {
+  margin: 0.85rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  min-height: 1.4em;
+}
+
+.rsvp-msg.error { color: #a33b2c; }
+.rsvp-msg.success { color: #2f6b45; }
+.rsvp-msg.info { color: var(--muted); }
+
+.rsvp-success-card {
+  max-width: 28rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(47, 107, 69, 0.18);
+}
+
+.rsvp-success-card strong {
+  display: block;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+  color: var(--ink);
+}
+
+.rsvp-success-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 560px) {
+  .hero {
+    padding-top: 8vh;
+  }
+
+  .rsvp-form {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  .outcomes {
+    gap: 0.5rem;
+  }
+
+  .outcome {
+    font-size: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+}

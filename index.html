@@ -3,160 +3,207 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Oracy — One minute a day</title>
-  <meta name="description" content="One minute of speaking practice a day. Short prompts, honest feedback, a habit that makes you clearer." />
-  <meta name="theme-color" content="#f4f7f4" />
+  <title>Oracy — Just 1 minute of speaking every day</title>
+  <meta name="description" content="Just 1 minute of speaking every day. Speak out loud, get AI feedback, notice what you can improve, come back tomorrow." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="/app-logo.jpg" type="image/jpeg" />
   <link rel="apple-touch-icon" href="/app-logo.jpg" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/landing.css" />
 </head>
 <body>
-  <header class="site-header reveal">
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="site-header">
     <a class="brand" href="/">
-      <img class="brand-mark" src="/app-logo.jpg" width="32" height="32" alt="" />
+      <img class="brand-mark" src="/app-logo.jpg" width="36" height="36" alt="" />
       <span>Oracy</span>
     </a>
     <nav>
-      <a href="#habit">The habit</a>
+      <a href="#rsvp">Notify me</a>
       <a href="/privacy">Privacy</a>
     </nav>
   </header>
 
-  <main>
-    <section class="hero" aria-label="Oracy">
-      <div class="hero-plane" aria-hidden="true">
-        <img src="/app-logo.jpg" alt="" />
-        <div class="hero-veil"></div>
-      </div>
+  <div class="page">
+    <main>
+      <section class="hero">
+        <img class="hero-logo" src="/app-logo.jpg" width="120" height="120" alt="Oracy" />
+        <p class="brand-hero">Oracy</p>
+        <h1>Just 1 minute of speaking every day.</h1>
+        <p class="lede">
+          A quiet daily habit for your voice — one prompt, sixty seconds out loud,
+          honest AI feedback. No audience. No pressure.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#rsvp">Want to try Oracy?</a>
+          <a class="btn-quiet" href="#how">See how it works</a>
+        </div>
+      </section>
 
-      <div class="hero-copy">
-        <p class="brand-hero reveal d1">Oracy</p>
-        <h1 class="reveal d2">One minute a day.<br />Clearer every week.</h1>
-        <p class="lede reveal d3">Speak out loud. Get honest feedback. Come back tomorrow.</p>
+      <section class="section" id="how">
+        <p class="section-label">The habit</p>
+        <h2>Small enough to keep. Strong enough to matter.</h2>
+        <ol class="habit-list">
+          <li><span class="n">1</span><span>1 minute a day</span></li>
+          <li><span class="n">2</span><span>Speak out loud</span></li>
+          <li><span class="n">3</span><span>Get AI feedback</span></li>
+          <li><span class="n">4</span><span>Notice what you can improve</span></li>
+          <li><span class="n">5</span><span>Come back tomorrow</span></li>
+        </ol>
+      </section>
 
-        <form class="rsvp reveal d4" id="rsvpForm" novalidate>
-          <div class="rsvp-row">
-            <label class="sr-only" for="email">Email</label>
+      <section class="section">
+        <p class="section-label">Why it works</p>
+        <div class="story">
+          <p class="pull">
+            Most of us practice thinking in our heads. Almost nobody practices speaking.
+          </p>
+          <p>
+            Oracy is a quiet daily habit for your voice: one minute, one prompt, honest
+            feedback. No audience. No pressure. Just you, speaking out loud, and getting
+            better at it.
+          </p>
+          <p>
+            Open the app. Take a breath. Speak for sixty seconds. Then see what landed —
+            your clarity, your pace, your fillers, what to try next time. Small notes.
+            Real progress. A streak that rewards showing up, not perfection.
+          </p>
+          <p>
+            Use it before a meeting. Before an interview. Before a hard conversation. Or
+            just because you want to feel more like yourself when you speak.
+          </p>
+          <p>
+            A week in, you’ll notice it: fewer “ums,” cleaner thoughts, a little more
+            confidence in the room. A month in, speaking stops feeling like something
+            you survive — and starts feeling like something you’re good at.
+          </p>
+          <p class="pull">
+            One minute a day. That’s all it asks.<br />
+            The rest of your life gets the benefit.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="section-label">The compounding</p>
+        <h2>What can 1 minute a day make you?</h2>
+        <div class="outcomes" aria-label="Outcomes">
+          <span class="outcome">More clear</span>
+          <span class="outcome">More confident</span>
+          <span class="outcome">More fluent</span>
+          <span class="outcome">More comfortable speaking</span>
+        </div>
+        <p class="support">
+          You don’t need an hour. You need a minute you can keep — and the kind of
+          honesty that makes tomorrow’s minute better than today’s.
+        </p>
+      </section>
+
+      <section class="section" id="rsvp">
+        <p class="section-label">Early access</p>
+        <h2>Want to try Oracy?</h2>
+        <p class="support" style="margin-bottom: 1.35rem;">
+          Leave your email and we’ll let you know when it’s ready.
+        </p>
+
+        <div class="rsvp-box">
+          <form class="rsvp-form" id="rsvpForm" novalidate>
+            <label class="hidden" for="email">Email</label>
             <input
               id="email"
               name="email"
               type="email"
+              inputmode="email"
               autocomplete="email"
+              placeholder="you@email.com"
               required
-              placeholder="Email for early access"
               maxlength="254"
             />
-            <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button type="submit" id="rsvpBtn">Notify me</button>
+            <button class="btn btn-primary" id="rsvpBtn" type="submit">Notify me</button>
+          </form>
+          <p class="rsvp-msg hidden" id="rsvpMsg" role="status" aria-live="polite"></p>
+          <div class="rsvp-success-card hidden" id="rsvpSuccess">
+            <strong>You’re on the list.</strong>
+            <p>We’ll email you when Oracy is ready. One minute a day starts soon.</p>
           </div>
-          <p class="rsvp-note" id="rsvpMsg">We’ll email you when the app is ready. Nothing else.</p>
-        </form>
-      </div>
-    </section>
-
-    <section class="habit" id="habit">
-      <p class="habit-kicker reveal">What it makes you</p>
-      <h2 class="reveal">Not louder.<br />Just clearer.</h2>
-      <p class="habit-lede reveal">
-        One quiet minute of speaking practice compounds. You stop scrambling for words when it matters.
-      </p>
-
-      <ol class="habit-lines">
-        <li class="reveal">
-          <span class="habit-num">01</span>
-          <div>
-            <strong>Meetings</strong>
-            <p>You take your turn without that freeze in the chest.</p>
-          </div>
-        </li>
-        <li class="reveal">
-          <span class="habit-num">02</span>
-          <div>
-            <strong>Interviews</strong>
-            <p>Answers land clean — practiced, not memorized.</p>
-          </div>
-        </li>
-        <li class="reveal">
-          <span class="habit-num">03</span>
-          <div>
-            <strong>Everyday talk</strong>
-            <p>You sound sure of yourself without performing.</p>
-          </div>
-        </li>
-      </ol>
-    </section>
-  </main>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <footer class="site-footer">
-    <a href="/">Oracy</a>
-    <div class="site-footer-links">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <span>© <span id="y"></span></span>
-    </div>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <span>© <span id="y"></span> Oracy</span>
   </footer>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear()
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!reduce) {
-      const io = new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add('in')
-            io.unobserve(e.target)
-          }
-        }
-      }, { threshold: 0.18 })
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el))
-    } else {
-      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'))
+    const form = document.getElementById('rsvpForm')
+    const emailInput = document.getElementById('email')
+    const btn = document.getElementById('rsvpBtn')
+    const msg = document.getElementById('rsvpMsg')
+    const success = document.getElementById('rsvpSuccess')
+
+    function showMsg(text, kind) {
+      msg.textContent = text
+      msg.className = 'rsvp-msg ' + kind
+      msg.classList.remove('hidden')
     }
 
-    const form = document.getElementById('rsvpForm')
-    const msg = document.getElementById('rsvpMsg')
-    const btn = document.getElementById('rsvpBtn')
-    const emailInput = document.getElementById('email')
+    function hideMsg() {
+      msg.classList.add('hidden')
+      msg.textContent = ''
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && value.length <= 254
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault()
-      msg.classList.remove('rsvp-err', 'rsvp-ok')
+      hideMsg()
+      success.classList.add('hidden')
+
       const email = emailInput.value.trim()
-      if (!email) {
-        msg.textContent = 'Enter your email to join.'
-        msg.classList.add('rsvp-err')
+      if (!isValidEmail(email)) {
+        showMsg('Enter a valid email address.', 'error')
+        emailInput.focus()
         return
       }
+
       btn.disabled = true
-      const prev = btn.textContent
-      btn.textContent = '…'
+      emailInput.disabled = true
+      showMsg('Saving…', 'info')
+
       try {
-        const res = await fetch('/api/rsvp', {
+        const res = await fetch('/api/interested', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            company: form.company.value,
-            source: 'website'
-          })
+          body: JSON.stringify({ email })
         })
         const data = await res.json().catch(() => ({}))
-        if (!res.ok) throw new Error(data.error || 'Could not save')
-        msg.textContent = data.already
-          ? 'You’re already on the list.'
-          : 'You’re in. We’ll be in touch.'
-        msg.classList.add('rsvp-ok')
-        form.reset()
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Something went wrong. Try again.')
+        }
+
+        form.classList.add('hidden')
+        hideMsg()
+        success.classList.remove('hidden')
+
+        if (data.status === 'duplicate') {
+          success.querySelector('strong').textContent = 'You’re already on the list.'
+          success.querySelector('p').textContent = data.message || 'We’ll be in touch when Oracy is ready.'
+        }
       } catch (err) {
-        msg.textContent = err.message || 'Something went wrong.'
-        msg.classList.add('rsvp-err')
-      } finally {
+        showMsg(err.message || 'Couldn’t save that email. Try again.', 'error')
         btn.disabled = false
-        btn.textContent = prev
+        emailInput.disabled = false
       }
     })
   </script>
