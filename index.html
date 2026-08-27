@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Oracy — One minute. Better every day.</title>
-  <meta name="description" content="Oracy helps you practice speaking out loud — short prompts, honest AI feedback, and a streak that rewards showing up." />
+  <title>Oracy — One minute a day. Clearer every week.</title>
+  <meta name="description" content="Oracy is one minute of speaking practice a day — short prompts, honest feedback, and a habit that makes you sound more confident." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -25,12 +25,43 @@
     </nav>
   </header>
 
-  <main class="hero">
-    <img class="hero-logo" src="/app-logo.jpg" width="120" height="120" alt="Oracy" />
-    <p class="brand-hero">Oracy</p>
-    <h1>Speak once. Mean it.</h1>
-    <p class="lede">One-minute speaking practice with honest feedback — built for people who want to sound clearer every day.</p>
-    <p class="cta-note">Available on the App Store soon.</p>
+  <main>
+    <section class="hero">
+      <img class="hero-logo" src="/app-logo.jpg" width="120" height="120" alt="Oracy" />
+      <p class="brand-hero">Oracy</p>
+      <h1>One minute a day.<br />Clearer every week.</h1>
+      <p class="lede">Speak out loud to a short prompt. Get honest feedback. Show up tomorrow. That’s the whole habit.</p>
+
+      <form class="rsvp" id="rsvpForm" novalidate>
+        <label class="rsvp-label" for="email">Get notified when Oracy is ready</label>
+        <div class="rsvp-row">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            placeholder="you@email.com"
+            maxlength="254"
+          />
+          <!-- honeypot -->
+          <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button type="submit" id="rsvpBtn">Notify me</button>
+        </div>
+        <p class="rsvp-note" id="rsvpMsg">No spam. Just a heads-up when you can download the app.</p>
+      </form>
+    </section>
+
+    <section class="habit">
+      <h2>What one minute a day does</h2>
+      <p class="habit-lede">You don’t need another course. You need reps — tiny, daily, out loud.</p>
+      <ul class="habit-list">
+        <li><strong>Meetings</strong> — you stop freezing when it’s your turn to speak.</li>
+        <li><strong>Interviews</strong> — answers come out clearer, not scrambled.</li>
+        <li><strong>Everyday talk</strong> — you sound more sure of yourself without trying to perform.</li>
+      </ul>
+      <p class="habit-end">Oracy turns speaking into a streak: one minute, real feedback, come back tomorrow.</p>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -38,6 +69,51 @@
     <a href="/terms">Terms of Service</a>
     <span>© <span id="y"></span> Oracy</span>
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear()
+
+    const form = document.getElementById('rsvpForm')
+    const msg = document.getElementById('rsvpMsg')
+    const btn = document.getElementById('rsvpBtn')
+    const emailInput = document.getElementById('email')
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      msg.classList.remove('rsvp-err', 'rsvp-ok')
+      const email = emailInput.value.trim()
+      if (!email) {
+        msg.textContent = 'Enter your email to join the list.'
+        msg.classList.add('rsvp-err')
+        return
+      }
+      btn.disabled = true
+      btn.textContent = 'Saving…'
+      try {
+        const res = await fetch('/api/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            company: form.company.value,
+            source: 'website'
+          })
+        })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) throw new Error(data.error || 'Could not save')
+        msg.textContent = data.already
+          ? 'You’re already on the list — we’ll email you.'
+          : 'You’re in. We’ll email you when Oracy is ready.'
+        msg.classList.add('rsvp-ok')
+        form.reset()
+      } catch (err) {
+        msg.textContent = err.message || 'Something went wrong. Try again.'
+        msg.classList.add('rsvp-err')
+      } finally {
+        btn.disabled = false
+        btn.textContent = 'Notify me'
+      }
+    })
+  </script>
 </body>
 </html>

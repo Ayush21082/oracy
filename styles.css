@@ -121,6 +121,124 @@ nav a:hover {
   color: var(--accent);
 }
 
+.rsvp {
+  max-width: 28rem;
+  margin-top: 0.25rem;
+}
+
+.rsvp-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.55rem;
+}
+
+.rsvp-row {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.rsvp-row input[type="email"] {
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(28, 23, 20, 0.14);
+  background: rgba(255, 255, 255, 0.8);
+  font: inherit;
+  color: var(--ink);
+}
+
+.rsvp-row button {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.85rem 1.15rem;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rsvp-row button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.rsvp-note {
+  margin: 0.65rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.rsvp-note.rsvp-ok { color: #2f6b45; }
+.rsvp-note.rsvp-err { color: #a33; }
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.habit {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4.5rem;
+}
+
+.habit h2 {
+  margin: 0 0 0.65rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.5rem, 3.5vw, 1.85rem);
+  font-weight: 700;
+}
+
+.habit-lede {
+  margin: 0 0 1.25rem;
+  max-width: 28rem;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 1.05rem;
+}
+
+.habit-list {
+  margin: 0 0 1.35rem;
+  padding: 0;
+  list-style: none;
+  max-width: 32rem;
+}
+
+.habit-list li {
+  position: relative;
+  padding: 0.7rem 0 0.7rem 0;
+  border-top: 1px solid rgba(28, 23, 20, 0.08);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.habit-list li:last-child {
+  border-bottom: 1px solid rgba(28, 23, 20, 0.08);
+}
+
+.habit-list strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.habit-end {
+  margin: 0;
+  max-width: 28rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
 .doc {
   max-width: 720px;
   margin: 0 auto;
