@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Oracy — Remote Config</title>
+  <link rel="icon" href="/app-logo.jpg" type="image/jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .admin { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .admin h1 { font-family: Fraunces, Georgia, serif; margin: 0 0 0.35rem; font-size: 2rem; }
+    .admin .sub { color: var(--muted); margin: 0 0 1.75rem; }
+    .card {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(28,23,20,0.08);
+      border-radius: 18px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 0.85rem;
+    }
+    .row-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .key { font-weight: 600; font-size: 1rem; word-break: break-all; }
+    .desc { color: var(--muted); font-size: 0.92rem; margin: 0.35rem 0 0; line-height: 1.45; }
+    .meta { color: var(--muted); font-size: 0.8rem; margin-top: 0.55rem; }
+    .switch {
+      position: relative; width: 48px; height: 28px; flex: 0 0 auto;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0; cursor: pointer;
+      background: #cbbfb4; border-radius: 999px; transition: .2s;
+    }
+    .slider:before {
+      content: ""; position: absolute; height: 22px; width: 22px; left: 3px; top: 3px;
+      background: white; border-radius: 50%; transition: .2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .switch input:checked + .slider { background: var(--accent); }
+    .switch input:checked + .slider:before { transform: translateX(20px); }
+    .switch input:disabled + .slider { opacity: .55; cursor: wait; }
+    .login-box { max-width: 380px; margin: 12vh auto 0; }
+    label.field { display: block; font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 0.4rem; }
+    input[type="password"] {
+      width: 100%; padding: 0.85rem 1rem; border-radius: 12px;
+      border: 1px solid rgba(28,23,20,0.14); background: rgba(255,255,255,0.8);
+      font: inherit; color: var(--ink); margin-bottom: 1rem;
+    }
+    button.primary {
+      width: 100%; border: 0; border-radius: 12px; padding: 0.9rem 1rem;
+      background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+    }
+    button.ghost {
+      border: 0; background: transparent; color: var(--muted); font: inherit;
+      cursor: pointer; text-decoration: underline; padding: 0;
+    }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; gap: 1rem; }
+    .err { color: #a33; font-size: 0.92rem; margin: 0.5rem 0 0; }
+    .ok { color: #2f6b45; font-size: 0.92rem; }
+    .hidden { display: none !important; }
+    .brand-lock { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
+    .brand-lock img { width: 40px; height: 40px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <main class="admin">
+    <section id="loginView" class="login-box">
+      <div class="brand-lock">
+        <img src="/app-logo.jpg" alt="" width="40" height="40" />
+        <strong style="font-family:Fraunces,Georgia,serif;font-size:1.35rem;">Oracy Admin</strong>
+      </div>
+      <h1>Remote config</h1>
+      <p class="sub">Password-protected. Changes apply to the live app after the next config refresh.</p>
+      <label class="field" for="password">Admin password</label>
+      <input id="password" type="password" autocomplete="current-password" />
+      <button class="primary" id="loginBtn" type="button">Sign in</button>
+      <p class="err hidden" id="loginErr"></p>
+    </section>
+
+    <section id="dashView" class="hidden">
+      <div class="toolbar">
+        <div>
+          <h1>Remote config</h1>
+          <p class="sub" style="margin:0">Supabase feature flags</p>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <button class="ghost" id="refreshBtn" type="button">Refresh</button>
+          <button class="ghost" id="logoutBtn" type="button">Log out</button>
+        </div>
+      </div>
+      <p class="err hidden" id="dashErr"></p>
+      <p class="ok hidden" id="dashOk"></p>
+      <div id="list"></div>
+    </section>
+  </main>
+
+  <script>
+    const TOKEN_KEY = 'oracy.admin.token'
+    const listEl = document.getElementById('list')
+    const loginView = document.getElementById('loginView')
+    const dashView = document.getElementById('dashView')
+    const loginErr = document.getElementById('loginErr')
+    const dashErr = document.getElementById('dashErr')
+    const dashOk = document.getElementById('dashOk')
+
+    function token() { return sessionStorage.getItem(TOKEN_KEY) || '' }
+    function setToken(t) {
+      if (t) sessionStorage.setItem(TOKEN_KEY, t)
+      else sessionStorage.removeItem(TOKEN_KEY)
+    }
+
+    function showLogin() {
+      loginView.classList.remove('hidden')
+      dashView.classList.add('hidden')
+    }
+    function showDash() {
+      loginView.classList.add('hidden')
+      dashView.classList.remove('hidden')
+    }
+
+    async function api(action, { method = 'GET', body, auth = true } = {}) {
+      const headers = { 'Content-Type': 'application/json' }
+      if (auth) headers.Authorization = `Bearer ${token()}`
+      const res = await fetch(`/api/remote-config?action=${encodeURIComponent(action)}`, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        const err = new Error(data.error || res.statusText)
+        err.status = res.status
+        throw err
+      }
+      return data
+    }
+
+    function formatTime(iso) {
+      if (!iso) return ''
+      try {
+        return new Date(iso).toLocaleString()
+      } catch { return iso }
+    }
+
+    function boolValue(v) {
+      if (typeof v === 'boolean') return v
+      if (v && typeof v === 'object' && 'value' in v) return Boolean(v.value)
+      return Boolean(v)
+    }
+
+    function renderRows(rows) {
+      listEl.innerHTML = ''
+      for (const row of rows) {
+        const on = boolValue(row.value)
+        const card = document.createElement('div')
+        card.className = 'card'
+        card.innerHTML = `
+          <div class="row-top">
+            <div>
+              <div class="key">${escapeHtml(row.key)}</div>
+              <p class="desc">${escapeHtml(row.description || '')}</p>
+              <div class="meta">Updated ${escapeHtml(formatTime(row.updated_at))}</div>
+            </div>
+            <label class="switch" title="Toggle">
+              <input type="checkbox" ${on ? 'checked' : ''} data-key="${escapeHtml(row.key)}" />
+              <span class="slider"></span>
+            </label>
+          </div>`
+        const input = card.querySelector('input')
+        input.addEventListener('change', async () => {
+          input.disabled = true
+          dashErr.classList.add('hidden')
+          dashOk.classList.add('hidden')
+          try {
+            const updated = await api('update', {
+              method: 'PATCH',
+              body: { key: row.key, value: input.checked }
+            })
+            row.value = updated.row.value
+            row.updated_at = updated.row.updated_at
+            card.querySelector('.meta').textContent = `Updated ${formatTime(row.updated_at)}`
+            dashOk.textContent = `Saved ${row.key}`
+            dashOk.classList.remove('hidden')
+          } catch (e) {
+            input.checked = !input.checked
+            if (e.status === 401) {
+              setToken('')
+              showLogin()
+            }
+            dashErr.textContent = e.message || 'Save failed'
+            dashErr.classList.remove('hidden')
+          } finally {
+            input.disabled = false
+          }
+        })
+        listEl.appendChild(card)
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+    }
+
+    async function load() {
+      dashErr.classList.add('hidden')
+      const data = await api('list')
+      renderRows(data.rows || [])
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      loginErr.classList.add('hidden')
+      const password = document.getElementById('password').value
+      try {
+        const data = await api('login', { method: 'POST', body: { password }, auth: false })
+        setToken(data.token)
+        showDash()
+        await load()
+      } catch (e) {
+        loginErr.textContent = e.message || 'Login failed'
+        loginErr.classList.remove('hidden')
+      }
+    })
+
+    document.getElementById('password').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click()
+    })
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      setToken('')
+      showLogin()
+    })
+
+    document.getElementById('refreshBtn').addEventListener('click', async () => {
+      try { await load() } catch (e) {
+        if (e.status === 401) { setToken(''); showLogin() }
+        dashErr.textContent = e.message || 'Refresh failed'
+        dashErr.classList.remove('hidden')
+      }
+    })
+
+    ;(async () => {
+      if (!token()) return showLogin()
+      try {
+        showDash()
+        await load()
+      } catch {
+        setToken('')
+        showLogin()
+      }
+    })()
+  </script>
+</body>
+</html>
