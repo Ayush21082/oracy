@@ -1,0 +1,170 @@
+:root {
+  --ink: #1c1714;
+  --muted: #6b5e55;
+  --accent: #c46a4a;
+  --paper: #f7f1ea;
+  --link: #8f4a32;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: "Schibsted Grotesk", system-ui, sans-serif;
+  background: var(--paper);
+}
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 55% at 12% 0%, rgba(196, 106, 74, 0.18), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 88% 8%, rgba(120, 160, 140, 0.16), transparent 50%),
+    linear-gradient(180deg, #fbf6f0 0%, #efe4d8 100%);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.brand {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+nav a[aria-current="page"],
+nav a:hover {
+  color: var(--accent);
+}
+
+.hero {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18vh 1.5rem 4rem;
+}
+
+.brand-hero {
+  margin: 0 0 0.75rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(3rem, 12vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  color: var(--ink);
+}
+
+.hero h1 {
+  margin: 0 0 1rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.lede {
+  max-width: 28rem;
+  margin: 0 0 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.cta-note {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.doc {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.doc h1 {
+  margin: 0 0 0.5rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 700;
+}
+
+.meta {
+  margin: 0 0 2.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.doc section {
+  margin-bottom: 1.75rem;
+}
+
+.doc h2 {
+  margin: 0 0 0.5rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.doc p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.doc a {
+  color: var(--link);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 1px solid rgba(28, 23, 20, 0.08);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
