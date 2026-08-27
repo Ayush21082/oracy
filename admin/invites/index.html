@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Oracy — Invites</title>
+  <link rel="icon" href="/app-logo.jpg" type="image/jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <main class="admin wide">
+    <section id="loginView" class="login-box">
+      <div class="brand-lock">
+        <img src="/app-logo.jpg" alt="" width="40" height="40" />
+        <strong style="font-family:Fraunces,Georgia,serif;font-size:1.35rem;">Oracy Admin</strong>
+      </div>
+      <h1>Invites</h1>
+      <p class="sub">Sign in to manage waitlist invites.</p>
+      <label class="field" for="password">Admin password</label>
+      <input id="password" type="password" autocomplete="current-password" />
+      <button class="primary" id="loginBtn" type="button" style="width:100%">Sign in</button>
+      <p class="err hidden" id="loginErr"></p>
+    </section>
+
+    <section id="dashView" class="hidden">
+      <nav class="admin-nav" aria-label="Admin">
+        <a href="/admin">Remote config</a>
+        <a href="/admin/invites" aria-current="page">Invites</a>
+      </nav>
+
+      <div class="toolbar">
+        <div>
+          <h1>Invites</h1>
+          <p class="sub" style="margin:0">People who asked to try Oracy</p>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <button class="ghost" id="refreshBtn" type="button">Refresh</button>
+          <button class="ghost" id="logoutBtn" type="button">Log out</button>
+        </div>
+      </div>
+
+      <div id="emailBanner" class="banner info hidden"></div>
+      <p class="err hidden" id="dashErr"></p>
+      <p class="ok hidden" id="dashOk"></p>
+
+      <div class="invite-bar">
+        <div class="left">
+          <label>
+            <select id="statusFilter" class="filter-select" aria-label="Filter by status">
+              <option value="all">All</option>
+              <option value="not_sent">Not sent</option>
+              <option value="sent">Sent</option>
+            </select>
+          </label>
+          <span class="muted" id="countLabel"></span>
+        </div>
+        <div class="right">
+          <button class="primary" id="bulkSendBtn" type="button" disabled>Send Invite to Selected</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="invites">
+          <thead>
+            <tr>
+              <th style="width:2.5rem">
+                <input type="checkbox" id="selectAll" aria-label="Select all in list" />
+              </th>
+              <th>Email</th>
+              <th>Joined</th>
+              <th>Status</th>
+              <th>Sent</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div class="empty hidden" id="empty">No interested users yet.</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h2 id="modalTitle">Send invites</h2>
+      <p class="sub" id="modalSub">Review the email, then confirm.</p>
+
+      <label class="field" for="mailSubject">Subject</label>
+      <input id="mailSubject" type="text" />
+
+      <label class="field" for="mailBody">Email</label>
+      <textarea id="mailBody"></textarea>
+
+      <label style="display:flex;gap:0.55rem;align-items:center;margin:0 0 1rem;font-size:0.92rem;color:var(--muted);">
+        <input type="checkbox" id="resendAlready" />
+        Also send to people already marked Sent
+      </label>
+
+      <p class="err hidden" id="modalErr"></p>
+      <div class="modal-actions">
+        <button class="secondary" id="modalCancel" type="button">Cancel</button>
+        <button class="primary" id="modalConfirm" type="button">Confirm &amp; send</button>
+      </div>
+
+      <div id="sendResult" class="hidden" style="margin-top:1rem;"></div>
+    </div>
+  </div>
+
+  <script>
+    const TOKEN_KEY = 'oracy.admin.token'
+    let rows = []
+    let template = { subject: '', body: '' }
+    let emailMeta = { configured: false }
+    let sendIds = []
+
+    const loginView = document.getElementById('loginView')
+    const dashView = document.getElementById('dashView')
+    const tbody = document.getElementById('tbody')
+    const empty = document.getElementById('empty')
+    const selectAll = document.getElementById('selectAll')
+    const bulkSendBtn = document.getElementById('bulkSendBtn')
+    const statusFilter = document.getElementById('statusFilter')
+    const countLabel = document.getElementById('countLabel')
+    const emailBanner = document.getElementById('emailBanner')
+    const dashErr = document.getElementById('dashErr')
+    const dashOk = document.getElementById('dashOk')
+    const modal = document.getElementById('modal')
+    const modalSub = document.getElementById('modalSub')
+    const mailSubject = document.getElementById('mailSubject')
+    const mailBody = document.getElementById('mailBody')
+    const resendAlready = document.getElementById('resendAlready')
+    const modalErr = document.getElementById('modalErr')
+    const sendResult = document.getElementById('sendResult')
+    const modalConfirm = document.getElementById('modalConfirm')
+
+    function token() { return sessionStorage.getItem(TOKEN_KEY) || '' }
+    function setToken(t) {
+      if (t) sessionStorage.setItem(TOKEN_KEY, t)
+      else sessionStorage.removeItem(TOKEN_KEY)
+    }
+
+    function showLogin() {
+      loginView.classList.remove('hidden')
+      dashView.classList.add('hidden')
+      modal.classList.add('hidden')
+    }
+    function showDash() {
+      loginView.classList.add('hidden')
+      dashView.classList.remove('hidden')
+    }
+
+    async function api(action, { method = 'GET', body, auth = true, query = '' } = {}) {
+      const headers = { 'Content-Type': 'application/json' }
+      if (auth) headers.Authorization = `Bearer ${token()}`
+      const res = await fetch(`/api/invites?action=${encodeURIComponent(action)}${query}`, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        const err = new Error(data.error || res.statusText)
+        err.status = res.status
+        err.data = data
+        throw err
+      }
+      return data
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '—'
+      try {
+        return new Date(iso).toLocaleString(undefined, {
+          year: 'numeric', month: 'short', day: 'numeric'
+        })
+      } catch { return iso }
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+    }
+
+    function selectedIds() {
+      return [...tbody.querySelectorAll('input.row-check:checked')].map((el) => el.value)
+    }
+
+    function updateBulkButton() {
+      const n = selectedIds().length
+      bulkSendBtn.disabled = n === 0
+      bulkSendBtn.textContent =
+        n === 0 ? 'Send Invite to Selected' : `Send Invite to ${n} ${n === 1 ? 'person' : 'people'}`
+      const boxes = [...tbody.querySelectorAll('input.row-check')]
+      selectAll.checked = boxes.length > 0 && boxes.every((b) => b.checked)
+      selectAll.indeterminate = boxes.some((b) => b.checked) && !selectAll.checked
+    }
+
+    function render() {
+      tbody.innerHTML = ''
+      empty.classList.toggle('hidden', rows.length > 0)
+      countLabel.textContent = `${rows.length} ${rows.length === 1 ? 'person' : 'people'}`
+
+      for (const row of rows) {
+        const status = row.invite_status === 'sent' ? 'sent' : 'not_sent'
+        const label = status === 'sent' ? 'Sent' : 'Not Sent'
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+          <td><input class="row-check" type="checkbox" value="${escapeHtml(row.id)}" aria-label="Select ${escapeHtml(row.email)}" /></td>
+          <td class="email">${escapeHtml(row.email)}</td>
+          <td class="muted">${escapeHtml(formatDate(row.created_at))}</td>
+          <td><span class="badge ${status}">${label}</span></td>
+          <td class="muted">${escapeHtml(formatDate(row.invite_sent_at))}</td>
+          <td>
+            <button class="secondary row-send" type="button" data-id="${escapeHtml(row.id)}">
+              ${status === 'sent' ? 'Resend' : 'Send Invite'}
+            </button>
+          </td>`
+        tbody.appendChild(tr)
+      }
+
+      tbody.querySelectorAll('input.row-check').forEach((el) => {
+        el.addEventListener('change', updateBulkButton)
+      })
+      tbody.querySelectorAll('button.row-send').forEach((btn) => {
+        btn.addEventListener('click', () => openModal([btn.dataset.id]))
+      })
+      updateBulkButton()
+    }
+
+    function updateEmailBanner() {
+      if (emailMeta.configured) {
+        emailBanner.className = 'banner info'
+        emailBanner.textContent = `Email ready via ${emailMeta.provider} · from ${emailMeta.from || '—'}`
+        emailBanner.classList.remove('hidden')
+      } else {
+        emailBanner.className = 'banner error'
+        emailBanner.textContent =
+          'Email is not configured yet. Set EMAIL_PROVIDER=resend, RESEND_API_KEY, and EMAIL_FROM on Vercel. Invites will not be marked Sent until mail actually sends.'
+        emailBanner.classList.remove('hidden')
+      }
+    }
+
+    async function load() {
+      dashErr.classList.add('hidden')
+      dashOk.classList.add('hidden')
+      const status = statusFilter.value
+      const query = status && status !== 'all' ? `&status=${encodeURIComponent(status)}` : ''
+      const data = await api('list', { query })
+      rows = data.rows || []
+      template = data.template || template
+      emailMeta = data.email || emailMeta
+      updateEmailBanner()
+      render()
+    }
+
+    function openModal(ids) {
+      sendIds = ids
+      sendResult.classList.add('hidden')
+      sendResult.innerHTML = ''
+      modalErr.classList.add('hidden')
+      modalConfirm.disabled = false
+      modalConfirm.textContent = 'Confirm & send'
+      const n = ids.length
+      modalSub.textContent =
+        n === 1
+          ? 'Sending to 1 person. Edit the email if you want, then confirm.'
+          : `Sending to ${n} people. Edit the email if you want, then confirm.`
+      mailSubject.value = template.subject || ''
+      mailBody.value = template.body || ''
+      resendAlready.checked = false
+      // If any selected are already sent, hint
+      const anySent = ids.some((id) => rows.find((r) => r.id === id)?.invite_status === 'sent')
+      if (anySent && n === 1) resendAlready.checked = true
+      modal.classList.remove('hidden')
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden')
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      document.getElementById('loginErr').classList.add('hidden')
+      try {
+        const data = await api('login', {
+          method: 'POST',
+          body: { password: document.getElementById('password').value },
+          auth: false
+        })
+        setToken(data.token)
+        showDash()
+        await load()
+      } catch (e) {
+        const el = document.getElementById('loginErr')
+        el.textContent = e.message || 'Login failed'
+        el.classList.remove('hidden')
+      }
+    })
+
+    document.getElementById('password').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click()
+    })
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      setToken('')
+      showLogin()
+    })
+
+    document.getElementById('refreshBtn').addEventListener('click', async () => {
+      try { await load() } catch (e) {
+        if (e.status === 401) { setToken(''); showLogin() }
+        dashErr.textContent = e.message || 'Refresh failed'
+        dashErr.classList.remove('hidden')
+      }
+    })
+
+    statusFilter.addEventListener('change', () => load().catch(() => {}))
+
+    selectAll.addEventListener('change', () => {
+      tbody.querySelectorAll('input.row-check').forEach((el) => {
+        el.checked = selectAll.checked
+      })
+      updateBulkButton()
+    })
+
+    bulkSendBtn.addEventListener('click', () => {
+      const ids = selectedIds()
+      if (ids.length) openModal(ids)
+    })
+
+    document.getElementById('modalCancel').addEventListener('click', closeModal)
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal()
+    })
+
+    modalConfirm.addEventListener('click', async () => {
+      modalErr.classList.add('hidden')
+      sendResult.classList.add('hidden')
+      const subject = mailSubject.value.trim()
+      const body = mailBody.value.trim()
+      if (!subject || !body) {
+        modalErr.textContent = 'Subject and body are required.'
+        modalErr.classList.remove('hidden')
+        return
+      }
+
+      modalConfirm.disabled = true
+      modalConfirm.textContent = 'Sending…'
+
+      try {
+        const data = await api('send', {
+          method: 'POST',
+          body: {
+            ids: sendIds,
+            subject,
+            body,
+            resendAlreadySent: resendAlready.checked
+          }
+        })
+
+        const { summary, results } = data
+        let html = `<p class="ok">Sent ${summary.sent} · Skipped ${summary.skipped} · Failed ${summary.failed}</p>`
+        if (results.failed?.length) {
+          html += '<p class="err" style="margin-top:0.5rem">Failed:</p><ul class="fail-list">'
+          for (const f of results.failed) {
+            html += `<li>${escapeHtml(f.email || f.id)} — ${escapeHtml(f.error)}</li>`
+          }
+          html += '</ul>'
+          // Keep failed selected for retry
+          const failIds = new Set(results.failed.map((f) => f.id))
+          sendIds = sendIds.filter((id) => failIds.has(id))
+          modalConfirm.disabled = sendIds.length === 0
+          modalConfirm.textContent = sendIds.length ? 'Retry failed' : 'Done'
+        } else {
+          modalConfirm.textContent = 'Done'
+          setTimeout(closeModal, 900)
+        }
+        sendResult.innerHTML = html
+        sendResult.classList.remove('hidden')
+        await load()
+      } catch (e) {
+        modalConfirm.disabled = false
+        modalConfirm.textContent = 'Confirm & send'
+        if (e.status === 401) { setToken(''); showLogin(); return }
+        modalErr.textContent = e.message || 'Send failed'
+        modalErr.classList.remove('hidden')
+        if (e.data?.code === 'EMAIL_NOT_CONFIGURED') {
+          emailMeta = e.data.email || emailMeta
+          updateEmailBanner()
+        }
+      }
+    })
+
+    ;(async () => {
+      if (!token()) return showLogin()
+      try {
+        showDash()
+        await load()
+      } catch {
+        setToken('')
+        showLogin()
+      }
+    })()
+  </script>
+</body>
+</html>

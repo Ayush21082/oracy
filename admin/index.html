@@ -10,59 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
-  <style>
-    .admin { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
-    .admin h1 { font-family: Fraunces, Georgia, serif; margin: 0 0 0.35rem; font-size: 2rem; }
-    .admin .sub { color: var(--muted); margin: 0 0 1.75rem; }
-    .card {
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(28,23,20,0.08);
-      border-radius: 18px;
-      padding: 1.25rem 1.35rem;
-      margin-bottom: 0.85rem;
-    }
-    .row-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-    .key { font-weight: 600; font-size: 1rem; word-break: break-all; }
-    .desc { color: var(--muted); font-size: 0.92rem; margin: 0.35rem 0 0; line-height: 1.45; }
-    .meta { color: var(--muted); font-size: 0.8rem; margin-top: 0.55rem; }
-    .switch {
-      position: relative; width: 48px; height: 28px; flex: 0 0 auto;
-    }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute; inset: 0; cursor: pointer;
-      background: #cbbfb4; border-radius: 999px; transition: .2s;
-    }
-    .slider:before {
-      content: ""; position: absolute; height: 22px; width: 22px; left: 3px; top: 3px;
-      background: white; border-radius: 50%; transition: .2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,.2);
-    }
-    .switch input:checked + .slider { background: var(--accent); }
-    .switch input:checked + .slider:before { transform: translateX(20px); }
-    .switch input:disabled + .slider { opacity: .55; cursor: wait; }
-    .login-box { max-width: 380px; margin: 12vh auto 0; }
-    label.field { display: block; font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 0.4rem; }
-    input[type="password"] {
-      width: 100%; padding: 0.85rem 1rem; border-radius: 12px;
-      border: 1px solid rgba(28,23,20,0.14); background: rgba(255,255,255,0.8);
-      font: inherit; color: var(--ink); margin-bottom: 1rem;
-    }
-    button.primary {
-      width: 100%; border: 0; border-radius: 12px; padding: 0.9rem 1rem;
-      background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
-    }
-    button.ghost {
-      border: 0; background: transparent; color: var(--muted); font: inherit;
-      cursor: pointer; text-decoration: underline; padding: 0;
-    }
-    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; gap: 1rem; }
-    .err { color: #a33; font-size: 0.92rem; margin: 0.5rem 0 0; }
-    .ok { color: #2f6b45; font-size: 0.92rem; }
-    .hidden { display: none !important; }
-    .brand-lock { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
-    .brand-lock img { width: 40px; height: 40px; border-radius: 10px; }
-  </style>
+  <link rel="stylesheet" href="/admin/admin.css" />
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -77,11 +25,16 @@
       <p class="sub">Password-protected. Changes apply to the live app after the next config refresh.</p>
       <label class="field" for="password">Admin password</label>
       <input id="password" type="password" autocomplete="current-password" />
-      <button class="primary" id="loginBtn" type="button">Sign in</button>
+      <button class="primary" id="loginBtn" type="button" style="width:100%">Sign in</button>
       <p class="err hidden" id="loginErr"></p>
     </section>
 
     <section id="dashView" class="hidden">
+      <nav class="admin-nav" aria-label="Admin">
+        <a href="/admin" aria-current="page">Remote config</a>
+        <a href="/admin/invites">Invites</a>
+      </nav>
+
       <div class="toolbar">
         <div>
           <h1>Remote config</h1>
@@ -141,15 +94,21 @@
 
     function formatTime(iso) {
       if (!iso) return ''
-      try {
-        return new Date(iso).toLocaleString()
-      } catch { return iso }
+      try { return new Date(iso).toLocaleString() } catch { return iso }
     }
 
     function boolValue(v) {
       if (typeof v === 'boolean') return v
       if (v && typeof v === 'object' && 'value' in v) return Boolean(v.value)
       return Boolean(v)
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
     }
 
     function renderRows(rows) {
@@ -199,14 +158,6 @@
         })
         listEl.appendChild(card)
       }
-    }
-
-    function escapeHtml(s) {
-      return String(s)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
     }
 
     async function load() {
