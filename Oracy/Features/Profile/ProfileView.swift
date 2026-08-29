@@ -14,6 +14,7 @@ struct ProfileView: View {
     @State private var auth = AuthService.shared
     @State private var sessionService = SessionService.shared
     @State private var showSettings = false
+    @State private var nudgeProOnOpenSettings = false
     @State private var referralCount = 0
     /// Built from cached sessions first — avoids recomputing on every body pass.
     @State private var weekModel = PracticeWeekModel(sessions: SessionService.shared.sessions)
@@ -139,6 +140,7 @@ struct ProfileView: View {
 
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
+                            nudgeProOnOpenSettings = false
                             showSettings = true
                         } label: {
                             Image(systemName: "gearshape.fill")
@@ -171,7 +173,7 @@ struct ProfileView: View {
                 }
             }
             .fullScreenCover(isPresented: $showSettings) {
-                SettingsView()
+                SettingsView(nudgeProCard: nudgeProOnOpenSettings)
             }
             .sheet(isPresented: $showAuth) {
                 AuthSheet(
@@ -327,6 +329,7 @@ struct ProfileView: View {
                 if subscriptions.isMembershipPlanEnabled {
                     Button {
                         Haptics.soft()
+                        nudgeProOnOpenSettings = !subscriptions.isProActive
                         showSettings = true
                     } label: {
                         membershipChip

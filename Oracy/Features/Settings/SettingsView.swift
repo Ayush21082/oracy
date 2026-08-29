@@ -4,8 +4,13 @@ import UserNotifications
 import RevenueCat
 
 struct SettingsView: View {
+    /// When true, land with a tiny shake + haptic on the Pro card (from “Free · left this week”).
+    var nudgeProCard: Bool = false
+
     @Environment(\.dismiss) private var dismiss
     @State private var showPaywall = false
+    @State private var proNudgeOffset: CGFloat = 0
+    @State private var proNudgeTilt: Double = 0
     @State private var showCustomerCenter = false
     #if DEBUG
     @State private var showDeveloper = false
@@ -196,9 +201,28 @@ struct SettingsView: View {
                 notificationStatus = await PracticeReminderService.shared.authorizationStatus()
                 await subscriptions.refresh()
                 await subscriptions.loadOfferings()
+                await nudgeProCardIfNeeded()
             }
         }
         .appErrorOverlay()
+    }
+
+    private func nudgeProCardIfNeeded() async {
+        guard nudgeProCard, shouldShowProCard else { return }
+        try? await Task.sleep(for: .milliseconds(320))
+        guard !Task.isCancelled else { return }
+        Haptics.light()
+        let frames: [(x: CGFloat, tilt: Double)] = [
+            (5, 1.4), (-4, -1.1), (3, 0.8), (-2, -0.5), (0, 0)
+        ]
+        for frame in frames {
+            withAnimation(.spring(response: 0.16, dampingFraction: 0.62)) {
+                proNudgeOffset = frame.x
+                proNudgeTilt = frame.tilt
+            }
+            try? await Task.sleep(for: .milliseconds(58))
+            guard !Task.isCancelled else { return }
+        }
     }
 
     // MARK: Plan hero
@@ -371,6 +395,8 @@ struct SettingsView: View {
                 .strokeBorder(Color.white.opacity(0.18), lineWidth: 1)
         }
         .shadow(color: Color.black.opacity(0.16), radius: 18, y: 10)
+        .offset(x: proNudgeOffset)
+        .rotationEffect(.degrees(proNudgeTilt))
     }
 
     private var proCTATitle: String {

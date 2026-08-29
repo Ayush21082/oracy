@@ -32,11 +32,12 @@ struct MainTabView: View {
         }
     }
 
-    /// Match SF Symbol tab size (25pt). Rebuild when the scheme changes so dark
-    /// mode uses `app-no-bg-dark` instead of the light cream plate.
+    /// Match SF Symbol tab size (25pt). Light `app-logo-with-bg` reads small
+    /// against the glass bar, so it gets +10. Dark uses `app-no-bg-dark`.
     private var homeTabIcon: UIImage {
-        let name = colorScheme == .dark ? "app-no-bg-dark" : "app-logo-with-bg"
-        return Self.makeHomeTabIcon(named: name, pointSize: 25)
+        let isDark = colorScheme == .dark
+        let name = isDark ? "app-no-bg-dark" : "app-logo-with-bg"
+        return Self.makeHomeTabIcon(named: name, pointSize: isDark ? 25 : 35)
     }
 
     private static func makeHomeTabIcon(named: String, pointSize: CGFloat) -> UIImage {

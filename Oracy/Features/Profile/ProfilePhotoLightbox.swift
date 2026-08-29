@@ -127,13 +127,16 @@ struct ProfilePhotoLightbox: View {
                 .blur(radius: 36)
                 .offset(x: parallaxX * 0.4, y: parallaxY * 0.4)
 
-            photoContent
-                .scaledToFill()
-                .frame(width: 280, height: 280)
-                .scaleEffect(1.08)
-                .offset(x: parallaxX, y: parallaxY)
-                .frame(width: 280, height: 280)
-                .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+            ZStack {
+                Color.white
+                photoContent
+                    .scaledToFill()
+                    .frame(width: 280, height: 280)
+                    .scaleEffect(1.08)
+                    .offset(x: parallaxX, y: parallaxY)
+            }
+            .frame(width: 280, height: 280)
+            .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
                 .overlay {
                     RoundedRectangle(cornerRadius: 36, style: .continuous)
                         .strokeBorder(
@@ -230,29 +233,9 @@ struct ProfilePhotoLightbox: View {
         }
     }
 
-    /// Default bird sits on a translucent warm wash so the tile isn’t a flat cutout.
     private var defaultPhotoFill: some View {
         ZStack {
-            LinearGradient(
-                colors: [
-                    Color(red: 0.98, green: 0.90, blue: 0.78).opacity(0.55),
-                    Theme.accent.opacity(0.42),
-                    Color(red: 0.36, green: 0.24, blue: 0.20).opacity(0.62)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-
-            RadialGradient(
-                colors: [
-                    Color.white.opacity(0.28),
-                    .clear
-                ],
-                center: UnitPoint(x: 0.3, y: 0.22),
-                startRadius: 4,
-                endRadius: 160
-            )
-
+            Color.white
             Image("bird")
                 .resizable()
                 .scaledToFit()
