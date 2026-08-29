@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>GIDClientID</key>
+	<string>750954857434-kac6fr1vb7o3j6n3k5anfg2410ks8i9e.apps.googleusercontent.com</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.heyayush.oracy</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Firebase Phone Auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app-1-750954857434-ios-c84f3b642aed8da57a36e3</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Google / Firebase reCAPTCHA</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.750954857434-kac6fr1vb7o3j6n3k5anfg2410ks8i9e</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Oracy lets you choose a photo for your profile.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Oracy saves highlight images you choose to share.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram-stories</string>
+		<string>instagram</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fraunces-Variable.ttf</string>
+		<string>Fraunces-Italic-Variable.ttf</string>
+		<string>SchibstedGrotesk-Variable.ttf</string>
+		<string>SchibstedGrotesk-Italic-Variable.ttf</string>
+	</array>
+</dict>
+</plist>

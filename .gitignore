@@ -1,0 +1,16 @@
+# Xcode
+*.xcuserstate
+xcuserdata/
+
+# Secrets
+Oracy/Config/Secrets.plist
+OneWord/Config/Secrets.plist
+Oracy/GoogleService-Info.plist
+Oracy/Config/GoogleService-Info.plist
+
+# macOS
+.DS_Store
+
+# Supabase local
+supabase/.env.local
+supabase/.branches

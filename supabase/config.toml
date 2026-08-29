@@ -1,0 +1,46 @@
+[project]
+id = "oneword"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+# Phone OTP — Firebase Auth (not Supabase SMS). See README → Firebase Phone.
+[auth]
+enabled = true
+site_url = "com.heyayush.OneWord://"
+additional_redirect_urls = ["com.heyayush.OneWord://auth/callback"]
+
+[auth.external.apple]
+enabled = true
+# Native iOS: Client ID is the app Bundle ID. Hosted projects: also enable Apple
+# in Dashboard → Authentication → Providers → Apple and add com.heyayush.oracy.
+client_id = "com.heyayush.oracy"
+
+[auth.external.google]
+enabled = true
+# iOS OAuth client ID (add a Web client ID first in the list when using serverClientID).
+client_id = "750954857434-kac6fr1vb7o3j6n3k5anfg2410ks8i9e.apps.googleusercontent.com"
+# Placeholder — native id_token flow does not use the web secret; Dashboard also has skip nonce on.
+secret = "native-ios-id-token-only"
+skip_nonce_check = true
+
+[functions.analyze-session]
+verify_jwt = true
+
+[functions.system-status]
+verify_jwt = true
+
+[functions.resolve-phone-session]
+verify_jwt = true

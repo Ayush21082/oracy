@@ -1,0 +1,89 @@
+{
+  "identifier" : "OracyProducts",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "0",
+    "_developerTeamID" : "4E33XWS7UW",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 0,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "oracy_pro_group",
+      "localizations" : [
+        {
+          "description" : "Oracy Pro membership",
+          "displayName" : "Oracy Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "Oracy Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "9.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "oracy_pro_monthly_v2_internal",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited practice + AI feedback. Billed monthly.",
+              "displayName" : "Oracy Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "oracy_pro_monthly_v2",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Oracy Pro Monthly",
+          "subscriptionGroupID" : "oracy_pro_group",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "59.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "oracy_pro_yearly_v2_internal",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited practice + AI feedback. Billed yearly.",
+              "displayName" : "Oracy Pro Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "oracy_pro_yearly_v2",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Oracy Pro Yearly",
+          "subscriptionGroupID" : "oracy_pro_group",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
