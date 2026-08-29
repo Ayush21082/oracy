@@ -6,6 +6,8 @@
     { "source": "/admin/", "destination": "/admin/index.html" },
     { "source": "/admin/invites", "destination": "/admin/invites/index.html" },
     { "source": "/admin/invites/", "destination": "/admin/invites/index.html" },
+    { "source": "/admin/services", "destination": "/admin/services/index.html" },
+    { "source": "/admin/services/", "destination": "/admin/services/index.html" },
     { "source": "/privacy", "destination": "/privacy/index.html" },
     { "source": "/privacy/", "destination": "/privacy/index.html" },
     { "source": "/terms", "destination": "/terms/index.html" },
