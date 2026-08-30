@@ -1,0 +1,708 @@
+/* /signal — beta install guide. Uses shared chrome from styles.css + landing buttons. */
+
+.signal-wrap {
+  padding-bottom: 2rem;
+}
+
+.signal-hero {
+  padding: calc(4.5rem + 6vh) 0 2.5rem;
+}
+
+.signal-hero .eyebrow {
+  margin-bottom: 0.85rem;
+}
+
+.signal-hero h1 {
+  margin: 0 0 1rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(2.35rem, 8vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.signal-hero .lede {
+  max-width: 28rem;
+}
+
+.signal-hero-actions {
+  margin-bottom: 0.75rem;
+}
+
+.cta-meta {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--soft);
+}
+
+/* —— Device-aware banner —— */
+.device-banner {
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(28, 23, 20, 0.08);
+  max-width: 28rem;
+}
+
+.device-banner-text {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.device-banner.is-ios {
+  border-color: rgba(47, 107, 69, 0.22);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.device-banner.is-ios .device-banner-text {
+  color: #2f6b45;
+}
+
+.device-banner.is-desktop .device-banner-text {
+  color: var(--ink);
+}
+
+.device-banner.is-android .device-banner-text {
+  color: var(--muted);
+}
+
+.desktop-qr {
+  margin-top: 1.75rem;
+}
+
+.desktop-qr-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem 1.1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(28, 23, 20, 0.08);
+  box-shadow: 0 12px 32px rgba(28, 23, 20, 0.06);
+}
+
+.desktop-qr-card img {
+  display: block;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.desktop-qr-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--soft);
+  text-align: center;
+  max-width: 12rem;
+  line-height: 1.4;
+}
+
+body[data-device="android"] .js-beta-link {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+body[data-device="android"] .signal-steps-section .js-beta-link {
+  pointer-events: none;
+}
+
+/* —— VIP product brief —— */
+.signal-brief {
+  padding-top: 2.5rem;
+}
+
+.signal-brief-pull {
+  margin: 0 0 1rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  max-width: 28rem;
+}
+
+.signal-brief .support {
+  margin-bottom: 1.5rem;
+}
+
+.signal-brief-beats {
+  list-style: none;
+  margin: 0 0 1.35rem;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 28rem;
+}
+
+.signal-brief-beats li {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.signal-brief-beat-n {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.signal-brief-note {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--soft);
+  letter-spacing: -0.01em;
+}
+
+/* —— Desktop overview stepper —— */
+.step-overview {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: none;
+  gap: 1rem;
+}
+
+@media (min-width: 820px) {
+  .step-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 2.25rem;
+  }
+}
+
+.step-overview li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.1rem 1.15rem 1.2rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(28, 23, 20, 0.06);
+}
+
+.step-overview-num {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.step-overview-arrow {
+  color: var(--soft);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.step-overview strong {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.step-overview-cta {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--soft);
+}
+
+/* —— Interactive step cards —— */
+.signal-steps-section .support {
+  margin-bottom: 0.25rem;
+}
+
+.step-cards {
+  margin-top: 1.75rem;
+  display: grid;
+  gap: 0;
+}
+
+.step-connector {
+  display: flex;
+  justify-content: center;
+  padding: 0.35rem 0;
+}
+
+.step-connector span {
+  width: 2px;
+  height: 1.35rem;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(196, 90, 56, 0.35),
+    rgba(196, 90, 56, 0.08)
+  );
+}
+
+.step-connector-success span {
+  background: linear-gradient(
+    180deg,
+    rgba(47, 107, 69, 0.35),
+    rgba(47, 107, 69, 0.1)
+  );
+}
+
+.step-card {
+  position: relative;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(28, 23, 20, 0.08);
+  box-shadow: 0 10px 28px rgba(28, 23, 20, 0.04);
+  overflow: hidden;
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.step-card.is-open,
+.step-card:focus-within {
+  border-color: rgba(196, 90, 56, 0.28);
+  box-shadow: 0 16px 40px rgba(28, 23, 20, 0.07);
+}
+
+.step-card-success {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(247, 250, 246, 0.85));
+  border-color: rgba(47, 107, 69, 0.18);
+  padding: 1.25rem 1.3rem 1.4rem;
+}
+
+.step-card-summary {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 1.25rem 1.3rem 1.15rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.step-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.step-num {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.step-num-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 999px;
+  background: rgba(47, 107, 69, 0.12);
+  color: #2f6b45;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.step-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+
+.step-card-visual {
+  margin-bottom: 0.85rem;
+}
+
+.tf-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #2f6bff, #5ac8fa);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: -0.02em;
+  box-shadow: 0 8px 18px rgba(47, 107, 255, 0.28);
+}
+
+.step-card h3 {
+  margin: 0 0 0.45rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.step-one-liner {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 34rem;
+}
+
+.step-card.is-open .step-summary-cta {
+  display: none;
+}
+
+.step-card.is-open .step-card-direct {
+  display: none !important;
+}
+
+.step-card-direct {
+  display: none;
+  margin: 0 1.3rem 1.25rem;
+  width: calc(100% - 2.6rem);
+}
+
+.step-card-detail {
+  padding: 0 1.3rem 1.35rem;
+  border-top: 1px solid rgba(28, 23, 20, 0.06);
+  animation: stepReveal 0.35s var(--ease);
+}
+
+.step-card-detail > p:first-child {
+  margin-top: 1rem;
+}
+
+.step-card-detail p {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.98rem;
+}
+
+.step-card-detail .btn {
+  margin-top: 0.35rem;
+}
+
+@keyframes stepReveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mini-flow {
+  margin: 0 0 1.1rem;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.mini-flow li {
+  margin-bottom: 0.35rem;
+}
+
+.iphone-callout {
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(196, 90, 56, 0.08);
+  border: 1px solid rgba(196, 90, 56, 0.14);
+  color: var(--ink) !important;
+}
+
+.device-hint {
+  font-size: 0.95rem !important;
+}
+
+.device-hint .soft {
+  color: var(--soft);
+}
+
+.install-seq {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(243, 245, 242, 0.85);
+  border: 1px solid rgba(28, 23, 20, 0.06);
+  text-align: center;
+}
+
+.install-seq-label,
+.install-seq-action {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+
+.install-seq-label {
+  font-family: Fraunces, Georgia, serif;
+  color: #2f6bff;
+}
+
+.install-seq-arrow {
+  color: var(--soft);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0.15rem 0;
+}
+
+.step-ready {
+  font-weight: 500;
+  color: var(--ink) !important;
+}
+
+.ready-check {
+  margin: 0 !important;
+  font-weight: 600;
+  color: #2f6b45 !important;
+}
+
+.step-card-success .btn {
+  margin-top: 0.35rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .step-card:not(.step-card-success):hover {
+    transform: translateY(-2px);
+  }
+
+  .step-card.is-open .step-card-direct {
+    display: none;
+  }
+}
+
+/* On coarse pointers, keep a visible CTA even when collapsed */
+@media (hover: none), (pointer: coarse) {
+  .step-card:not(.is-open):not(.step-card-success) .step-card-direct {
+    display: inline-flex;
+  }
+
+  .step-card.is-open .step-card-direct {
+    display: none;
+  }
+}
+
+/* —— Product preview stack —— */
+.signal-preview {
+  padding: 3.25rem 0 4.5rem;
+  border-top: 1px solid rgba(28, 23, 20, 0.08);
+  overflow: hidden;
+}
+
+.signal-preview-intro {
+  margin-bottom: 2.25rem;
+}
+
+.signal-preview-intro h2 {
+  margin: 0 0 0.85rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.55rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.signal-preview-intro .support {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+.preview-stack {
+  --parallax: 0;
+  position: relative;
+  height: min(72vw, 420px);
+  max-width: 720px;
+  margin: 0 auto;
+  outline: none;
+  perspective: 1200px;
+}
+
+.preview-stack:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(196, 106, 74, 0.45);
+}
+
+.preview-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 100%;
+}
+
+.preview-card {
+  --offset: 0;
+  --distance: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(48vw, 220px);
+  margin: 0;
+  transform:
+    translate(-50%, calc(-50% + (var(--parallax) * 12px) + (var(--offset) * 10px)))
+    translateX(calc(var(--offset) * 18px))
+    scale(calc(1 - (var(--distance) * 0.06)));
+  opacity: calc(1 - (var(--distance) * 0.22));
+  transition:
+    transform 0.55s var(--ease),
+    opacity 0.55s var(--ease),
+    filter 0.55s var(--ease);
+  filter: blur(calc(var(--distance) * 0.4px));
+  pointer-events: none;
+}
+
+.preview-card.is-active {
+  --distance: 0;
+  pointer-events: auto;
+  filter: none;
+}
+
+.preview-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px;
+  box-shadow:
+    0 24px 50px rgba(28, 23, 20, 0.14),
+    0 8px 18px rgba(28, 23, 20, 0.08);
+}
+
+.preview-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+
+.preview-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  background: rgba(28, 23, 20, 0.18);
+  cursor: pointer;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.preview-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+/* Mobile: horizontal swipe rail fallback when stack is tight */
+@media (max-width: 640px) {
+  .preview-stack {
+    height: auto;
+    max-width: none;
+    perspective: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 0 0.25rem;
+  }
+
+  .preview-track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    height: auto;
+    padding: 0.5rem max(1.5rem, 6vw) 1rem;
+  }
+
+  .preview-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(68vw, 230px);
+    flex: 0 0 auto;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    scroll-snap-align: center;
+    pointer-events: auto;
+  }
+
+  .preview-card img {
+    border-radius: 26px;
+  }
+}
+
+@media (min-width: 720px) {
+  .preview-stack {
+    height: 480px;
+  }
+
+  .preview-card {
+    width: 240px;
+  }
+
+  .preview-card img {
+    border-radius: 32px;
+  }
+}
+
+/* —— Final CTA —— */
+.signal-final {
+  text-align: left;
+  padding-bottom: 1rem;
+}
+
+.signal-final .hero-actions {
+  margin: 1.35rem 0 0.75rem;
+}
+
+@media (max-width: 560px) {
+  .signal-hero {
+    padding-top: calc(4.5rem + 4vh);
+  }
+
+  .signal-hero-actions .btn-primary,
+  .step-card-detail .btn-primary,
+  .step-card-success .btn-primary,
+  .signal-final .btn-primary {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-card,
+  .step-card-detail,
+  .preview-card,
+  .preview-dot {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .preview-card {
+    filter: none !important;
+  }
+}
