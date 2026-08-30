@@ -11,7 +11,9 @@
     { "source": "/privacy", "destination": "/privacy/index.html" },
     { "source": "/privacy/", "destination": "/privacy/index.html" },
     { "source": "/terms", "destination": "/terms/index.html" },
-    { "source": "/terms/", "destination": "/terms/index.html" }
+    { "source": "/terms/", "destination": "/terms/index.html" },
+    { "source": "/signal", "destination": "/signal/index.html" },
+    { "source": "/signal/", "destination": "/signal/index.html" }
   ],
   "headers": [
     {
