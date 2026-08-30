@@ -198,12 +198,16 @@
 
     function updateBulkButton() {
       const n = selectedIds().length
-      bulkSendBtn.disabled = n === 0
+      const canSend = Boolean(emailMeta.configured)
+      bulkSendBtn.disabled = n === 0 || !canSend
       bulkSendBtn.textContent =
         n === 0 ? 'Send Invite to Selected' : `Send Invite to ${n} ${n === 1 ? 'person' : 'people'}`
       const boxes = [...tbody.querySelectorAll('input.row-check')]
       selectAll.checked = boxes.length > 0 && boxes.every((b) => b.checked)
       selectAll.indeterminate = boxes.some((b) => b.checked) && !selectAll.checked
+      tbody.querySelectorAll('button.row-send').forEach((btn) => {
+        btn.disabled = !canSend
+      })
     }
 
     function render() {
@@ -245,8 +249,12 @@
         emailBanner.classList.remove('hidden')
       } else {
         emailBanner.className = 'banner error'
+        const missing = Array.isArray(emailMeta.missing) && emailMeta.missing.length
+          ? ` Missing: ${emailMeta.missing.join(', ')}.`
+          : ''
         emailBanner.textContent =
-          'Email is not configured yet. Set EMAIL_PROVIDER=resend, RESEND_API_KEY, and EMAIL_FROM on Vercel. Invites will not be marked Sent until mail actually sends.'
+          'Email is not configured yet. Set EMAIL_PROVIDER=resend, RESEND_API_KEY, and EMAIL_FROM on Vercel. Invites will not be marked Sent until mail actually sends.' +
+          missing
         emailBanner.classList.remove('hidden')
       }
     }
@@ -265,6 +273,12 @@
     }
 
     function openModal(ids) {
+      if (!emailMeta.configured) {
+        dashErr.textContent =
+          'Email is not configured yet. Set EMAIL_PROVIDER=resend, RESEND_API_KEY, and EMAIL_FROM on Vercel. Invites will not be marked Sent until mail actually sends.'
+        dashErr.classList.remove('hidden')
+        return
+      }
       sendIds = ids
       sendResult.classList.add('hidden')
       sendResult.innerHTML = ''
