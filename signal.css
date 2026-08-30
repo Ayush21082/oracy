@@ -111,6 +111,58 @@ body[data-device="android"] .signal-steps-section .js-beta-link {
   pointer-events: none;
 }
 
+/* —— VIP product brief —— */
+.signal-brief {
+  padding-top: 2.5rem;
+}
+
+.signal-brief-pull {
+  margin: 0 0 1rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  max-width: 28rem;
+}
+
+.signal-brief .support {
+  margin-bottom: 1.5rem;
+}
+
+.signal-brief-beats {
+  list-style: none;
+  margin: 0 0 1.35rem;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 28rem;
+}
+
+.signal-brief-beats li {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.signal-brief-beat-n {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.signal-brief-note {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--soft);
+  letter-spacing: -0.01em;
+}
+
 /* —— Desktop overview stepper —— */
 .step-overview {
   list-style: none;

@@ -57,6 +57,36 @@
         </aside>
       </section>
 
+      <section class="section signal-brief" aria-labelledby="briefHeading">
+        <p class="section-label">Private beta</p>
+        <h2 id="briefHeading">What you’ve been invited to.</h2>
+        <p class="signal-brief-pull">
+          Oracy is a quiet daily habit for your voice — one prompt, sixty seconds out loud,
+          honest AI feedback.
+        </p>
+        <p class="support">
+          No audience. No pressure. Just you, speaking for one minute, then seeing what landed:
+          clarity, pace, fillers, and what to try tomorrow.
+        </p>
+        <ul class="signal-brief-beats" aria-label="How Oracy works">
+          <li>
+            <span class="signal-brief-beat-n">1</span>
+            <span>Open a prompt</span>
+          </li>
+          <li>
+            <span class="signal-brief-beat-n">2</span>
+            <span>Speak for 60 seconds</span>
+          </li>
+          <li>
+            <span class="signal-brief-beat-n">3</span>
+            <span>Get AI feedback</span>
+          </li>
+        </ul>
+        <p class="signal-brief-note">
+          You’re on the VIP list — this build isn’t public yet.
+        </p>
+      </section>
+
       <section class="section signal-steps-section" id="steps" aria-labelledby="stepsHeading">
         <p class="section-label">Getting started</p>
         <h2 id="stepsHeading">Getting started takes 3 steps.</h2>
@@ -276,9 +306,30 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear()
 
-    const BETA_PATH = '/api/testflight'
     const TESTFLIGHT_APP =
       'https://apps.apple.com/app/testflight/id899247664'
+
+    function resolveBetaUrl() {
+      const params = new URLSearchParams(window.location.search)
+      const join = (params.get('join') || '').trim()
+      if (join) {
+        if (/^https:\/\/testflight\.apple\.com\/join\//i.test(join)) return join
+        if (/^[A-Za-z0-9]{6,12}$/.test(join)) {
+          return 'https://testflight.apple.com/join/' + join
+        }
+      }
+      return '/api/testflight'
+    }
+
+    const BETA_URL = resolveBetaUrl()
+
+    document.querySelectorAll('.js-beta-link').forEach((el) => {
+      el.setAttribute('href', BETA_URL)
+      if (/^https:\/\//i.test(BETA_URL)) {
+        el.setAttribute('target', '_blank')
+        el.setAttribute('rel', 'noopener noreferrer')
+      }
+    })
 
     function detectDevice() {
       const ua = navigator.userAgent || ''
@@ -299,9 +350,9 @@
 
     function absoluteBetaUrl() {
       try {
-        return new URL(BETA_PATH, window.location.origin).href
+        return new URL(BETA_URL, window.location.origin).href
       } catch {
-        return BETA_PATH
+        return BETA_URL
       }
     }
 
