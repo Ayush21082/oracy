@@ -406,11 +406,12 @@ async function checkFirebase() {
 async function checkEmail() {
   const status = emailStatus()
   if (!isEmailConfigured()) {
+    const missing = (status.missing || []).join(', ') || 'RESEND_API_KEY, EMAIL_FROM'
     return fail(
       'email_provider',
       'Email',
       'Invite email',
-      'Not configured (EMAIL_PROVIDER / RESEND_API_KEY / EMAIL_FROM)'
+      `Not configured — set ${missing} on Vercel, then redeploy`
     )
   }
   return ok(

@@ -82,11 +82,14 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'POST' && action === 'send') {
       if (!isEmailConfigured()) {
+        const email = emailStatus()
+        const needed = email.missing?.length
+          ? email.missing.join(', ')
+          : 'EMAIL_PROVIDER=resend, RESEND_API_KEY, EMAIL_FROM'
         return json(res, 503, {
-          error:
-            'Email is not configured. Set EMAIL_PROVIDER=resend, RESEND_API_KEY, and EMAIL_FROM on Vercel.',
+          error: `Email is not configured. Set ${needed} on Vercel, then redeploy. Invites will not be marked Sent until mail actually sends.`,
           code: 'EMAIL_NOT_CONFIGURED',
-          email: emailStatus()
+          email
         })
       }
 
@@ -125,13 +128,29 @@ module.exports = async function handler(req, res) {
         }
 
         try {
-          await sendEmail({ to: person.email, subject, body: text })
+          const sent = await sendEmail({ to: person.email, subject, body: text })
           const now = new Date().toISOString()
-          await supabaseFetch(`interested?id=eq.${encodeURIComponent(person.id)}`, {
-            method: 'PATCH',
-            body: { invite_status: 'sent', invite_sent_at: now }
+          try {
+            await supabaseFetch(`interested?id=eq.${encodeURIComponent(person.id)}`, {
+              method: 'PATCH',
+              body: { invite_status: 'sent', invite_sent_at: now }
+            })
+          } catch (patchErr) {
+            results.failed.push({
+              id: person.id,
+              email: person.email,
+              error:
+                `Mail sent (${sent.id || 'ok'}) but status was not saved: ${patchErr.message || 'update failed'}`,
+              code: 'STATUS_UPDATE_FAILED'
+            })
+            continue
+          }
+          results.sent.push({
+            id: person.id,
+            email: person.email,
+            invite_sent_at: now,
+            providerId: sent.id || null
           })
-          results.sent.push({ id: person.id, email: person.email, invite_sent_at: now })
         } catch (err) {
           results.failed.push({
             id: person.id,
