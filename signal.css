@@ -315,11 +315,12 @@ body[data-device="android"] .signal-steps-section .js-beta-link {
   max-width: 34rem;
 }
 
-.step-summary-cta {
-  display: inline-block;
-  font-weight: 600;
-  font-size: 0.92rem;
-  color: var(--accent);
+.step-card.is-open .step-summary-cta {
+  display: none;
+}
+
+.step-card.is-open .step-card-direct {
+  display: none !important;
 }
 
 .step-card-direct {
