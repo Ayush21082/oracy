@@ -32,7 +32,8 @@
   <main>
     <div class="page signal-wrap">
       <section class="signal-hero">
-        <p class="eyebrow">Oracy Beta</p>
+        <img class="hero-logo" src="/app-logo.jpg" width="80" height="80" alt="Oracy" />
+        <p class="brand-hero">Oracy</p>
         <h1>You’re in.</h1>
         <p class="lede">
           Get Oracy on your iPhone and start your first one-minute speaking session.
@@ -244,38 +245,36 @@
       </section>
     </div>
 
-    <section class="signal-preview" id="preview" aria-labelledby="previewHeading">
-      <div class="page-inset signal-preview-intro">
+    <section class="shots" id="preview" aria-labelledby="previewHeading">
+      <div class="shots-intro page-inset">
         <p class="section-label">And then</p>
         <h2 id="previewHeading">And then you’re here.</h2>
         <p class="support">
           A quiet place to practice speaking, one minute at a time.
         </p>
       </div>
-
-      <div class="preview-stack" id="previewStack" tabindex="0" role="region" aria-label="Oracy app screenshots">
-        <ul class="preview-track">
-          <li class="preview-card is-active" data-index="0">
+      <div class="shots-rail" tabindex="0" role="region" aria-label="Screenshot gallery">
+        <ul class="shots-track">
+          <li class="shot">
             <img src="/assets/screenshots/home.jpg" width="660" height="1434" alt="Home: today’s prompt and Start Speaking" loading="lazy" decoding="async" />
           </li>
-          <li class="preview-card" data-index="1">
+          <li class="shot">
             <img src="/assets/screenshots/record.jpg" width="660" height="1434" alt="Recording: speak for one minute" loading="lazy" decoding="async" />
           </li>
-          <li class="preview-card" data-index="2">
+          <li class="shot">
             <img src="/assets/screenshots/feedback.jpg" width="660" height="1434" alt="Feedback: score and transcript" loading="lazy" decoding="async" />
           </li>
-          <li class="preview-card" data-index="3">
+          <li class="shot">
             <img src="/assets/screenshots/improve.jpg" width="660" height="1434" alt="Improve: suggested expressions and corrections" loading="lazy" decoding="async" />
           </li>
-          <li class="preview-card" data-index="4">
+          <li class="shot">
             <img src="/assets/screenshots/profile.jpg" width="660" height="1434" alt="Profile: streak, words spoken, and practice activity" loading="lazy" decoding="async" />
           </li>
-          <li class="preview-card" data-index="5">
+          <li class="shot">
             <img src="/assets/screenshots/progress.jpg" width="660" height="1434" alt="Progress: activity heatmap and practice pulse" loading="lazy" decoding="async" />
           </li>
         </ul>
       </div>
-      <div class="preview-dots" id="previewDots" aria-hidden="true"></div>
     </section>
 
     <div class="page signal-wrap">
@@ -429,105 +428,8 @@
       }
     }
 
-    function setupPreviewStack() {
-      const stack = document.getElementById('previewStack')
-      const cards = Array.from(stack.querySelectorAll('.preview-card'))
-      const dots = document.getElementById('previewDots')
-      let active = 0
-      let reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-      cards.forEach((_, i) => {
-        const dot = document.createElement('button')
-        dot.type = 'button'
-        dot.className = 'preview-dot' + (i === 0 ? ' is-active' : '')
-        dot.setAttribute('aria-label', 'Show screenshot ' + (i + 1))
-        dot.addEventListener('click', () => setActive(i))
-        dots.appendChild(dot)
-      })
-
-      function setActive(index) {
-        active = (index + cards.length) % cards.length
-        cards.forEach((card, i) => {
-          const offset = i - active
-          const distance = Math.abs(offset)
-          card.classList.toggle('is-active', i === active)
-          card.style.setProperty('--offset', String(offset))
-          card.style.setProperty('--distance', String(distance))
-          card.style.zIndex = String(20 - distance)
-        })
-        Array.from(dots.children).forEach((dot, i) => {
-          dot.classList.toggle('is-active', i === active)
-        })
-      }
-
-      setActive(0)
-
-      // Scroll parallax: advance active card as section scrolls into view
-      if (!reduced && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return
-              const ratio = entry.intersectionRatio
-              const idx = Math.min(
-                cards.length - 1,
-                Math.floor(ratio * cards.length)
-              )
-              if (idx !== active && ratio > 0.25) setActive(idx)
-            })
-          },
-          { threshold: [0.2, 0.35, 0.5, 0.65, 0.8] }
-        )
-        io.observe(stack)
-      }
-
-      // Gentle scroll-linked depth on desktop
-      if (!reduced) {
-        window.addEventListener(
-          'scroll',
-          () => {
-            const rect = stack.getBoundingClientRect()
-            const mid = window.innerHeight * 0.5
-            const delta = (rect.top + rect.height / 2 - mid) / window.innerHeight
-            stack.style.setProperty('--parallax', String(Math.max(-1, Math.min(1, delta))))
-          },
-          { passive: true }
-        )
-      }
-
-      // Mobile swipe
-      let startX = 0
-      stack.addEventListener(
-        'touchstart',
-        (e) => {
-          startX = e.changedTouches[0].clientX
-        },
-        { passive: true }
-      )
-      stack.addEventListener(
-        'touchend',
-        (e) => {
-          const dx = e.changedTouches[0].clientX - startX
-          if (Math.abs(dx) < 40) return
-          setActive(active + (dx < 0 ? 1 : -1))
-        },
-        { passive: true }
-      )
-
-      stack.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') {
-          e.preventDefault()
-          setActive(active + 1)
-        } else if (e.key === 'ArrowLeft') {
-          e.preventDefault()
-          setActive(active - 1)
-        }
-      })
-    }
-
     applyDeviceUX()
     setupStepCards()
-    setupPreviewStack()
   </script>
 </body>
 </html>
