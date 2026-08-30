@@ -6,12 +6,38 @@
   padding: 0 1.5rem 4rem;
 }
 
+.page:has(.hero) {
+  padding-bottom: 0;
+}
+
+.page-inset {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
 .hero {
-  padding: calc(4.5rem + 8vh) 0 3.5rem;
+  position: relative;
+  display: grid;
+  gap: 2.75rem;
+  align-items: end;
+  min-height: auto;
+  overflow: visible;
+  padding: calc(4.5rem + 6vh) 0 3.25rem;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: auto;
+  max-width: none;
+  padding: 0;
 }
 
 .hero-logo {
   margin-bottom: 1.5rem;
+  border-radius: 28px;
 }
 
 .brand-hero {
@@ -35,6 +61,144 @@
   flex-wrap: wrap;
   gap: 0.85rem 1.25rem;
   align-items: center;
+}
+
+/* App Store–style phone preview in the hero */
+.hero-shot {
+  margin: 0;
+  justify-self: center;
+  width: min(100%, 280px);
+}
+
+.hero-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 36px;
+  box-shadow:
+    0 28px 60px rgba(28, 23, 20, 0.14),
+    0 8px 20px rgba(28, 23, 20, 0.08);
+}
+
+@media (min-width: 900px) {
+  .page:has(.hero) {
+    max-width: 1080px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 3.5rem;
+    align-items: center;
+    padding-bottom: 4rem;
+  }
+
+  .hero-shot {
+    width: min(100%, 340px);
+    justify-self: end;
+    transform: translateY(0.5rem);
+    animation: heroFloat 7s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)) infinite alternate;
+  }
+}
+
+@keyframes heroFloat {
+  from { transform: translateY(0.5rem); }
+  to { transform: translateY(-0.65rem); }
+}
+
+/* Full-bleed App Store screenshot rail */
+.shots {
+  padding: 3.5rem 0 5.5rem;
+  border-top: 1px solid rgba(28, 23, 20, 0.08);
+}
+
+.shots-intro {
+  margin-bottom: 2.5rem;
+}
+
+.shots-intro h2 {
+  margin: 0 0 0.85rem;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.55rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.shots-intro .support {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+.shots-rail {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(1.75rem, calc((100vw - 1080px) / 2 + 1.75rem));
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(28, 23, 20, 0.22) transparent;
+  outline: none;
+  padding: 0.85rem 0 0.5rem;
+}
+
+.shots-rail:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(196, 106, 74, 0.45);
+}
+
+.shots-track {
+  list-style: none;
+  margin: 0;
+  padding: 0.65rem max(1.75rem, calc((100vw - 1080px) / 2 + 1.75rem)) 1.75rem;
+  display: flex;
+  gap: 1.35rem;
+  width: max-content;
+}
+
+.shot {
+  flex: 0 0 auto;
+  width: min(62vw, 260px);
+  scroll-snap-align: start;
+  padding: 0.15rem;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 32px;
+  box-shadow:
+    0 22px 48px rgba(28, 23, 20, 0.12),
+    0 6px 16px rgba(28, 23, 20, 0.06);
+  transition: transform 0.45s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.shot:hover img {
+  transform: translateY(-4px);
+}
+
+@media (min-width: 720px) {
+  .shot {
+    width: 280px;
+  }
+
+  .shot img {
+    border-radius: 36px;
+  }
+
+  .shots-track {
+    gap: 1.6rem;
+    padding-inline: max(2.5rem, calc((100vw - 1080px) / 2 + 2.5rem));
+    padding-bottom: 2rem;
+  }
+
+  .shots-rail {
+    scroll-padding-inline: max(2.5rem, calc((100vw - 1080px) / 2 + 2.5rem));
+  }
 }
 
 .btn {
@@ -249,7 +413,34 @@
 
 @media (max-width: 560px) {
   .hero {
-    padding-top: calc(4.5rem + 5vh);
+    padding-top: calc(4.5rem + 4vh);
+    gap: 2.15rem;
+  }
+
+  .hero-shot {
+    width: min(100%, 240px);
+  }
+
+  .hero-shot img,
+  .shot img {
+    border-radius: 28px;
+  }
+
+  .shots {
+    padding: 2.75rem 0 4.5rem;
+  }
+
+  .shot {
+    width: min(72vw, 240px);
+  }
+
+  .shots-track {
+    gap: 1.2rem;
+    padding: 0.5rem max(1.5rem, 6vw) 1.6rem;
+  }
+
+  .shots-rail {
+    scroll-padding-inline: max(1.5rem, 6vw);
   }
 
   .rsvp-form {
@@ -270,5 +461,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn { transition: none; }
+  .btn,
+  .shot img { transition: none; }
+  .hero-shot { animation: none; }
 }

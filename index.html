@@ -27,22 +27,68 @@
     </nav>
   </header>
 
-  <div class="page">
-    <main>
+  <main>
+    <div class="page">
       <section class="hero">
-        <img class="hero-logo" src="/app-logo.jpg" width="120" height="120" alt="Oracy" />
-        <p class="brand-hero">Oracy</p>
-        <h1>Just 1 minute of speaking every day.</h1>
-        <p class="lede">
-          A quiet daily habit for your voice — one prompt, sixty seconds out loud,
-          honest AI feedback. No audience. No pressure.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#rsvp">Want to try Oracy?</a>
-          <a class="btn-quiet" href="#how">See how it works</a>
+        <div class="hero-copy">
+          <img class="hero-logo" src="/app-logo.jpg" width="120" height="120" alt="Oracy" />
+          <p class="brand-hero">Oracy</p>
+          <h1>Just 1 minute of speaking every day.</h1>
+          <p class="lede">
+            A quiet daily habit for your voice — one prompt, sixty seconds out loud,
+            honest AI feedback. No audience. No pressure.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#rsvp">Want to try Oracy?</a>
+            <a class="btn-quiet" href="#preview">See the app</a>
+          </div>
         </div>
+        <figure class="hero-shot">
+          <img
+            src="/assets/screenshots/home.jpg"
+            width="660"
+            height="1434"
+            alt="Oracy home screen with today’s prompt and Start Speaking"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </figure>
       </section>
+    </div>
 
+    <section class="shots" id="preview" aria-label="App previews">
+      <div class="shots-intro page-inset">
+        <p class="section-label">Inside the app</p>
+        <h2>One minute. Real feedback.</h2>
+        <p class="support">
+          Soft corners, quiet space, nothing in the way — just you and the next thing to say.
+        </p>
+      </div>
+      <div class="shots-rail" tabindex="0" role="region" aria-label="Screenshot gallery">
+        <ul class="shots-track">
+          <li class="shot">
+            <img src="/assets/screenshots/home.jpg" width="660" height="1434" alt="Home: today’s prompt and Start Speaking" loading="lazy" decoding="async" />
+          </li>
+          <li class="shot">
+            <img src="/assets/screenshots/record.jpg" width="660" height="1434" alt="Recording: speak for one minute" loading="lazy" decoding="async" />
+          </li>
+          <li class="shot">
+            <img src="/assets/screenshots/feedback.jpg" width="660" height="1434" alt="Feedback: score and transcript" loading="lazy" decoding="async" />
+          </li>
+          <li class="shot">
+            <img src="/assets/screenshots/improve.jpg" width="660" height="1434" alt="Improve: suggested expressions and corrections" loading="lazy" decoding="async" />
+          </li>
+          <li class="shot">
+            <img src="/assets/screenshots/profile.jpg" width="660" height="1434" alt="Profile: streak, words spoken, and practice activity" loading="lazy" decoding="async" />
+          </li>
+          <li class="shot">
+            <img src="/assets/screenshots/progress.jpg" width="660" height="1434" alt="Progress: activity heatmap and practice pulse" loading="lazy" decoding="async" />
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="page">
       <section class="section" id="how">
         <p class="section-label">The habit</p>
         <h2>Small enough to keep. Strong enough to matter.</h2>
@@ -131,8 +177,8 @@
           </div>
         </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <footer class="site-footer">
     <a href="/privacy">Privacy Policy</a>
