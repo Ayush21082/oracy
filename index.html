@@ -3,111 +3,467 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Oracy — Just 1 minute of speaking every day</title>
-  <meta name="description" content="Just 1 minute of speaking every day. Speak out loud, get AI feedback, notice what you can improve, come back tomorrow." />
+  <title>Oracy: one minute of speaking every day</title>
+  <meta name="description" content="One prompt. One minute. Out loud. Speak for sixty seconds, get honest AI feedback, and come back tomorrow." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="/app-logo.jpg" type="image/jpeg" />
   <link rel="apple-touch-icon" href="/app-logo.jpg" />
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/landing.css" />
+  <link rel="stylesheet" href="/home.css" />
+  <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-  <div class="atmosphere" aria-hidden="true"></div>
-
-  <header class="site-header">
-    <a class="brand" href="/">
-      <img class="brand-mark" src="/app-logo.jpg" width="36" height="36" alt="" />
+  <header class="nav">
+    <a class="pill nav-brand" href="/">
+      <img src="/app-logo.jpg" width="34" height="34" alt="" />
       <span>Oracy</span>
     </a>
-    <nav>
-      <a href="#rsvp">Notify me</a>
-      <a href="/privacy">Privacy</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a class="pill" href="#how">How it works</a>
+      <a class="pill" href="#why">Why speak</a>
+      <a class="pill" href="#pricing">Pricing</a>
+      <a class="pill" href="#faq">FAQ</a>
     </nav>
+    <a class="pill nav-cta" href="#rsvp">
+      <span class="dot" aria-hidden="true">↗</span>
+      <span>Get early access</span>
+    </a>
   </header>
 
-  <div class="page">
-    <main>
-      <section class="hero">
-        <img class="hero-logo" src="/app-logo.jpg" width="120" height="120" alt="Oracy" />
-        <p class="brand-hero">Oracy</p>
-        <h1>Just 1 minute of speaking every day.</h1>
-        <p class="lede">
-          A quiet daily habit for your voice — one prompt, sixty seconds out loud,
-          honest AI feedback. No audience. No pressure.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#rsvp">Want to try Oracy?</a>
-          <a class="btn-quiet" href="#how">See how it works</a>
+  <main>
+    <section class="hero3d" id="top">
+      <div class="pin">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <h1>
+              <span class="lit">One prompt.</span>
+              <span>One minute.</span>
+              <span class="tint">Out loud.</span>
+            </h1>
+            <p class="lede">
+              You open the app, you get one prompt, you speak for sixty seconds. Then AI
+              tells you honestly how it went. No audience. No pressure.
+            </p>
+            <a class="btn" href="#rsvp">Get early access</a>
+            <div class="chips">
+              <span>1 minute a day</span>
+              <span>3 free sessions every week</span>
+              <span>Recordings never train AI models</span>
+            </div>
+          </div>
+
+          <div class="stage" aria-hidden="true">
+            <div class="scene">
+              <span class="float filler" style="--x:-11em;--y:-9em;--z:6em">um...</span>
+              <span class="float filler" style="--x:9.5em;--y:-11em;--z:-4em">like,</span>
+              <span class="float filler" style="--x:-12.5em;--y:1em;--z:-6em">I mean...</span>
+              <span class="float filler" style="--x:10.5em;--y:-1em;--z:8em">so basically</span>
+              <span class="float filler" style="--x:-9.5em;--y:10em;--z:3em">you know?</span>
+              <span class="float filler" style="--x:9em;--y:9.5em;--z:-3em">kind of</span>
+
+              <span class="float win" style="--x:-11.5em;--y:-7em;--z:7em"><b>86</b> Clarity</span>
+              <span class="float win" style="--x:10.5em;--y:-3em;--z:5em"><b>84</b> Fluency</span>
+              <span class="float win" style="--x:-10.5em;--y:7em;--z:4em"><b>2</b> filler words</span>
+
+              <div class="phone">
+                <div class="face front">
+                  <p class="ph-kicker">Today’s prompt</p>
+                  <p class="ph-title">Is money necessary for happiness?</p>
+                  <div class="ph-timer">
+                    <svg viewBox="0 0 150 150">
+                      <circle class="track" cx="75" cy="75" r="64" />
+                      <circle class="run" id="heroRing" cx="75" cy="75" r="64" />
+                    </svg>
+                    <b id="heroTime">1:00</b>
+                  </div>
+                  <div class="wave">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  </div>
+                  <span class="ph-rec"></span>
+                </div>
+                <div class="face back">
+                  <p class="ph-kicker">Overall score</p>
+                  <div class="ph-score"><b>82</b><span>Great</span></div>
+                  <div class="bars">
+                    <div class="bar"><span>Fluency</span><em style="--v:84%"></em><b>84</b></div>
+                    <div class="bar"><span>Grammar</span><em style="--v:78%"></em><b>78</b></div>
+                    <div class="bar"><span>Vocabulary</span><em style="--v:80%"></em><b>80</b></div>
+                    <div class="bar"><span>Clarity</span><em style="--v:86%"></em><b>86</b></div>
+                    <div class="bar"><span>Confidence</span><em style="--v:81%"></em><b>81</b></div>
+                  </div>
+                  <p class="ph-note">Let the last sentence land.</p>
+                </div>
+              </div>
+            </div>
+            <span class="hand scroll-hint">keep scrolling ↓</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="watch" id="watch">
+      <div class="watch-frame">
+        <video
+          controls
+          playsinline
+          preload="none"
+          poster="/media/oracy-demo-poster.jpg"
+          width="1280"
+          height="720"
+          aria-label="Oracy in 30 seconds: one minute of speaking a day, with AI feedback"
+        >
+          <source src="/media/oracy-demo.mp4" type="video/mp4" />
+          <a href="/media/oracy-demo.mp4">Watch the Oracy video</a>
+        </video>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track"><span>ONE PROMPT · SIXTY SECONDS · OUT LOUD · HONEST FEEDBACK · COME BACK TOMORROW · </span><span>ONE PROMPT · SIXTY SECONDS · OUT LOUD · HONEST FEEDBACK · COME BACK TOMORROW · </span><span>ONE PROMPT · SIXTY SECONDS · OUT LOUD · HONEST FEEDBACK · COME BACK TOMORROW · </span><span>ONE PROMPT · SIXTY SECONDS · OUT LOUD · HONEST FEEDBACK · COME BACK TOMORROW · </span><span>ONE PROMPT · SIXTY SECONDS · OUT LOUD · HONEST FEEDBACK · COME BACK TOMORROW · </span><span>ONE PROMPT · SIXTY SECONDS · OUT LOUD · HONEST FEEDBACK · COME BACK TOMORROW · </span></div>
+    </div>
+
+    <section class="statement wrap" id="why">
+      <h2 class="reveal">
+        Communication, articulation, storytelling and speaking will be the most
+        important skills to have in the post-AI world.
+      </h2>
+      <p class="body reveal">
+        Just think about it. What will make humans valuable after AI can do all the work
+        humans do? And the answer is your ability to connect with other people. Because
+        that’s the one thing AI cannot do. AI cannot build real, authentic, genuine human
+        connections.
+      </p>
+      <p class="body reveal">
+        And most of us are not naturally good communicators. It’s extremely rare that
+        someone just grows up as a good communicator without putting in any effort to
+        get there.
+      </p>
+    </section>
+
+    <section class="story" id="story">
+      <div class="pin">
+        <div class="wrap story-grid">
+          <div class="caps">
+            <div class="cap on">
+              <p class="cap-k">The old way</p>
+              <p class="cap-t">In schools, you’re supposed to write essays of a thousand words.</p>
+            </div>
+            <div class="cap">
+              <p class="cap-k">The old way</p>
+              <p class="cap-t">I would use the most random filler words, the most random words ever, just to be able to fill my thousand word quota.</p>
+            </div>
+            <div class="cap">
+              <p class="cap-k">The old way</p>
+              <p class="cap-t">What could have been a 250, 300 word essay which is short, concise, which keeps the reader’s attention...</p>
+            </div>
+            <div class="cap">
+              <p class="cap-k">The old way</p>
+              <p class="cap-t">...was now a thousand word essay no one would ever read.</p>
+            </div>
+            <div class="cap">
+              <p class="cap-k">Enough</p>
+              <p class="cap-t">Turn the page. One prompt, sixty seconds. Say the thing and stop.</p>
+            </div>
+          </div>
+
+          <div class="book" aria-hidden="true">
+            <div class="book-tilt">
+              <div class="leaf under">
+                <p class="ph-kicker">Today’s prompt</p>
+                <p class="under-title">What makes a good manager?</p>
+                <p class="under-time">1:00</p>
+                <p class="hand under-note">say the thing. stop.</p>
+              </div>
+              <div class="leaf page">
+                <div class="page-front">
+                  <p class="count"><b id="wordCount">0</b> / 1000 words</p>
+                  <p class="ln t" style="--at:0.03">Essay. 1000 words.</p>
+                  <p class="ln k" style="--at:0.08">Communication is very important.</p>
+                  <p class="ln k" style="--at:0.13">It helps us connect with people.</p>
+                  <p class="ln f" style="--at:0.2">In today’s modern world of today,</p>
+                  <p class="ln f" style="--at:0.25">it is a well known fact that</p>
+                  <p class="ln f" style="--at:0.3">since time immemorial,</p>
+                  <p class="ln f" style="--at:0.35">last but not the least,</p>
+                  <p class="ln f" style="--at:0.42">it goes without saying that,</p>
+                  <p class="ln f" style="--at:0.48">in a nutshell, at the end of the day,</p>
+                  <p class="ln f" style="--at:0.54">to sum up what was already said...</p>
+                  <span class="mark" style="--at:.4">↑ the real essay was two lines</span>
+                  <span class="stamp" style="--at:.66">nobody read this</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement wrap ask-block">
+      <p class="ask reveal">
+        So how do you actually develop this muscle, this skill of communication?
+      </p>
+      <span class="hand reveal">one minute at a time ↓</span>
+    </section>
+
+    <section class="features" id="how">
+      <svg class="ribbon" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M 78 2 C 96 12, 60 20, 30 27 S 4 44, 40 50 S 96 62, 62 72 S 6 86, 34 99" />
+      </svg>
+      <div class="wrap">
+        <p class="hand features-label">how it works</p>
+
+        <div class="feature reveal">
+          <div class="feature-mock">
+            <div class="mock try-prompt" id="tryPrompt">
+              <div class="mock-row">
+                <p class="mock-kicker">Today’s prompt</p>
+                <button type="button" class="chip-btn" id="shuffleBtn">↻ Another</button>
+              </div>
+              <p class="mock-title" id="promptText" aria-live="polite">Is money necessary for happiness?</p>
+              <button type="button" class="timer timer-btn" id="timerBtn" aria-label="Start the one minute timer">
+                <svg viewBox="0 0 150 150" width="150" height="150" aria-hidden="true">
+                  <circle class="track" cx="75" cy="75" r="64" />
+                  <circle class="run" id="tryRing" cx="75" cy="75" r="64" />
+                </svg>
+                <b id="tryTime">1:00</b>
+              </button>
+              <div class="wave" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <p class="mock-hint" id="timerHint" aria-live="polite">Tap the timer. Answer out loud.</p>
+            </div>
+            <span class="hand">go on, try a minute</span>
+          </div>
+          <div class="feature-card">
+            <span class="badge">1</span>
+            <h3>One prompt,<br />one minute</h3>
+            <p>
+              A new question every day. You get sixty seconds to answer it out loud.
+              That is the whole session.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <div class="feature-mock">
+            <div class="mock try-scores" id="tryScores">
+              <p class="mock-kicker">Overall score</p>
+              <div class="score-top"><b class="num" data-to="82">82</b><span>Great</span></div>
+              <div class="bars">
+                <button type="button" class="bar on" data-note="How smoothly you kept going, without long stalls." style="--v:84%"><span>Fluency</span><em></em><b class="num" data-to="84">84</b></button>
+                <button type="button" class="bar" data-note="Whether your sentences hold together." style="--v:78%"><span>Grammar</span><em></em><b class="num" data-to="78">78</b></button>
+                <button type="button" class="bar" data-note="The range of words you reached for." style="--v:80%"><span>Vocabulary</span><em></em><b class="num" data-to="80">80</b></button>
+                <button type="button" class="bar" data-note="How easy your point was to follow." style="--v:86%"><span>Clarity</span><em></em><b class="num" data-to="86">86</b></button>
+                <button type="button" class="bar" data-note="How sure you sounded saying it." style="--v:81%"><span>Confidence</span><em></em><b class="num" data-to="81">81</b></button>
+              </div>
+              <p class="mock-hint" id="scoreNote" aria-live="polite">How smoothly you kept going, without long stalls.</p>
+            </div>
+            <span class="hand">tap a score</span>
+          </div>
+          <div class="feature-card">
+            <span class="badge">2</span>
+            <h3>Honest<br />scores</h3>
+            <p>
+              Fluency, grammar, vocabulary, clarity and confidence, scored every time you
+              speak. Plus your pace and how many filler words you used.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <div class="feature-mock">
+            <div class="mock try-fix" id="tryFix">
+              <p class="mock-kicker">One thing to improve</p>
+              <p class="fix-note">
+                Let the last sentence land. A short pause after your point makes the
+                thought feel finished.
+              </p>
+              <div class="swap">
+                <span class="swap-label">You said</span>
+                <q class="said">it was kind of like, interesting</q>
+                <q class="better" aria-live="polite">it stayed with me</q>
+              </div>
+              <button type="button" class="chip-btn wide" id="fixBtn">Fix it</button>
+            </div>
+            <span class="hand">one. not ten.</span>
+          </div>
+          <div class="feature-card">
+            <span class="badge">3</span>
+            <h3>One thing<br />to fix</h3>
+            <p>
+              Not a report card. One note for tomorrow, and a better way to say the thing
+              you just said.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <div class="feature-mock">
+            <div class="mock try-streak" id="tryStreak">
+              <p class="mock-kicker">This week</p>
+              <div class="week">
+                <button type="button" class="day on" aria-pressed="true">M<i>✓</i></button>
+                <button type="button" class="day on" aria-pressed="true">T<i>✓</i></button>
+                <button type="button" class="day on" aria-pressed="true">W<i>✓</i></button>
+                <button type="button" class="day on" aria-pressed="true">T<i>✓</i></button>
+                <button type="button" class="day on" aria-pressed="true">F<i>✓</i></button>
+                <button type="button" class="day" aria-pressed="false">S<i>✓</i></button>
+                <button type="button" class="day" aria-pressed="false">S<i>✓</i></button>
+              </div>
+              <div class="streak"><b id="streakNum">5</b><span id="streakLabel" aria-live="polite">day streak</span></div>
+            </div>
+            <span class="hand">tap Saturday</span>
+          </div>
+          <div class="feature-card">
+            <span class="badge">4</span>
+            <h3>Come back<br />tomorrow</h3>
+            <p>
+              The streak rewards showing up, not being perfect. You don’t have to be good
+              today. You just have to speak again tomorrow.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="switch wrap" id="switch">
+      <h2 class="head reveal">Same thought.<span class="dim">Fewer words.</span></h2>
+      <p class="hand reveal">go on, tap it</p>
+      <div class="seg reveal" role="group" aria-label="Show the answer with or without filler words">
+        <button type="button" class="on" data-mode="raw" aria-pressed="true">How it came out</button>
+        <button type="button" data-mode="clean" aria-pressed="false">How it could sound</button>
+        <i class="seg-thumb" aria-hidden="true"></i>
+      </div>
+      <div class="transcript reveal" id="transcript" data-mode="raw">
+        <p class="t-text">So <span class="fw">um, </span>I think the <span class="fw">like, </span>main thing about a good manager is <span class="fw">you know, </span>they listen. And <span class="fw">I mean, </span>they <span class="fw">kind of </span>make time for you, and <span class="fw">basically </span>they tell you the truth <span class="fw">sort of </span>early, before it becomes a problem.</p>
+        <p class="t-meta"><b id="tWords"></b> words <span>·</span> <b id="tFillers"></b> filler words</p>
+      </div>
+    </section>
+
+    <section class="more wrap">
+      <h2 class="head reveal">It does more than score.<span class="dim">The bits you find later.</span></h2>
+      <div class="bento">
+        <div class="tile reveal">
+          <h3>Filler word count</h3>
+          <p>Every um, like and you know, counted. You can’t fix what you can’t hear.</p>
+        </div>
+        <div class="tile reveal">
+          <h3>Grammar fixes</h3>
+          <p>What you said, next to how to say it better.</p>
+        </div>
+        <div class="tile reveal">
+          <h3>History</h3>
+          <p>Every session saved, so you can see where you started.</p>
+        </div>
+        <div class="tile reveal">
+          <h3>A gentle nudge</h3>
+          <p>A reminder when it’s time to practice. Turn it off whenever you like.</p>
+        </div>
+        <div class="tile reveal">
+          <h3>Invite a friend</h3>
+          <p>Share your code and you both get 2 extra sessions a week.</p>
+        </div>
+        <div class="tile reveal">
+          <h3>Your voice stays yours</h3>
+          <p>Recordings are not used to train AI models. Delete them anytime.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="panel-wrap">
+      <section class="panel">
+        <div class="wrap compare-grid">
+          <div class="fillers reveal" aria-hidden="true">
+            <span>um...</span><span>like,</span><span>I mean...</span><span>so basically</span><span>you know?</span><span>kind of</span>
+            <p class="hand">sound familiar?</p>
+          </div>
+          <div class="reveal">
+            <h2 class="head"><span class="dim">Thinking it is easy.</span>Saying it is the skill.</h2>
+            <table class="table">
+              <thead>
+                <tr><th scope="col">What you get</th><th scope="col">Oracy</th><th scope="col">In your head</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>You say it out loud</td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td></tr>
+                <tr><td>Someone tells you the truth</td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td></tr>
+                <tr><td>You hear your own filler words</td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td></tr>
+                <tr><td>You know what to fix tomorrow</td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td></tr>
+                <tr><td>You can see yourself getting better</td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td></tr>
+                <tr><td>Nobody is watching</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
+    </div>
 
-      <section class="section" id="how">
-        <p class="section-label">The habit</p>
-        <h2>Small enough to keep. Strong enough to matter.</h2>
-        <ol class="habit-list">
-          <li><span class="n">1</span><span>1 minute a day</span></li>
-          <li><span class="n">2</span><span>Speak out loud</span></li>
-          <li><span class="n">3</span><span>Get AI feedback</span></li>
-          <li><span class="n">4</span><span>Notice what you can improve</span></li>
-          <li><span class="n">5</span><span>Come back tomorrow</span></li>
-        </ol>
-      </section>
-
-      <section class="section">
-        <p class="section-label">Why it works</p>
-        <div class="story">
-          <p class="pull">
-            Most of us practice thinking in our heads. Almost nobody practices speaking.
-          </p>
-          <p>
-            Oracy is a quiet daily habit for your voice: one minute, one prompt, honest
-            feedback. No audience. No pressure. Just you, speaking out loud, and getting
-            better at it.
-          </p>
-          <p>
-            Open the app. Take a breath. Speak for sixty seconds. Then see what landed —
-            your clarity, your pace, your fillers, what to try next time. Small notes.
-            Real progress. A streak that rewards showing up, not perfection.
-          </p>
-          <p>
-            Use it before a meeting. Before an interview. Before a hard conversation. Or
-            just because you want to feel more like yourself when you speak.
-          </p>
-          <p>
-            A week in, you’ll notice it: fewer “ums,” cleaner thoughts, a little more
-            confidence in the room. A month in, speaking stops feeling like something
-            you survive — and starts feeling like something you’re good at.
-          </p>
-          <p class="pull">
-            One minute a day. That’s all it asks.<br />
-            The rest of your life gets the benefit.
-          </p>
+    <section class="pricing wrap" id="pricing">
+      <h2 class="head reveal">Free every week.<span class="dim">Pro if you want more.</span></h2>
+      <div class="plans">
+        <div class="plan reveal">
+          <p class="plan-name">Free</p>
+          <p class="plan-price">3 sessions</p>
+          <p class="plan-sub">every week</p>
+          <ul>
+            <li>One-minute speaking practice</li>
+            <li>A new prompt each time</li>
+            <li>Your streak and history</li>
+            <li>2 extra weekly sessions when you invite a friend</li>
+          </ul>
         </div>
-      </section>
-
-      <section class="section">
-        <p class="section-label">The compounding</p>
-        <h2>What can 1 minute a day make you?</h2>
-        <div class="outcomes" aria-label="Outcomes">
-          <span class="outcome">More clear</span>
-          <span class="outcome">More confident</span>
-          <span class="outcome">More fluent</span>
-          <span class="outcome">More comfortable speaking</span>
+        <div class="plan pro reveal">
+          <p class="plan-name">Oracy Pro</p>
+          <p class="plan-price">7 days free</p>
+          <p class="plan-sub">then monthly or yearly</p>
+          <ul>
+            <li>Unlimited one-minute practice</li>
+            <li>Full AI feedback every session</li>
+            <li>Pro mark on your profile</li>
+          </ul>
         </div>
-        <p class="support">
-          You don’t need an hour. You need a minute you can keep — and the kind of
-          honesty that makes tomorrow’s minute better than today’s.
-        </p>
-      </section>
+      </div>
+      <p class="fine">Cancel anytime. Your recordings are never used to train AI models.</p>
+    </section>
 
-      <section class="section" id="rsvp">
-        <p class="section-label">Early access</p>
-        <h2>Want to try Oracy?</h2>
-        <p class="support" style="margin-bottom: 1.35rem;">
-          Leave your email and we’ll let you know when it’s ready.
-        </p>
+    <section class="faq wrap" id="faq">
+      <div class="faq-grid">
+        <div class="faq-intro reveal">
+          <h2 class="head">Questions<span class="dim">you might ask.</span></h2>
+          <p>Straight answers. Tap a question.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>Do I need to be a good speaker already?</summary>
+            <p>No. Most of us are not naturally good communicators. Oracy is for getting there, one minute at a time.</p>
+          </details>
+          <details>
+            <summary>How long does it take?</summary>
+            <p>One minute of speaking. Then your feedback is ready to read.</p>
+          </details>
+          <details>
+            <summary>What does the AI actually tell me?</summary>
+            <p>Scores for fluency, grammar, vocabulary, clarity and confidence, notes on your pace and filler words, one thing to improve, and a better way to phrase something you said.</p>
+          </details>
+          <details>
+            <summary>What happens to my recordings?</summary>
+            <p>Your audio is analyzed to score how you spoke. It is not used to train AI models, and you can delete your recordings anytime.</p>
+          </details>
+          <details>
+            <summary>Is Oracy free?</summary>
+            <p>You get 3 free sessions every week. Oracy Pro gives you unlimited practice and full feedback every session, with a 7-day free trial.</p>
+          </details>
+          <details>
+            <summary>How do I get it?</summary>
+            <p>Oracy is in early access on iPhone. Leave your email below and we’ll let you know when it’s ready for you.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <div class="panel-wrap">
+      <section class="cta" id="rsvp">
+        <h2 class="head">Learn to speak.<span class="dim">One minute a day.</span></h2>
+        <p>Oracy is in early access. Leave your email and we’ll let you know when it’s ready.</p>
 
         <div class="rsvp-box">
           <form class="rsvp-form" id="rsvpForm" novalidate>
@@ -122,7 +478,7 @@
               required
               maxlength="254"
             />
-            <button class="btn btn-primary" id="rsvpBtn" type="submit">Notify me</button>
+            <button class="btn" id="rsvpBtn" type="submit">Notify me</button>
           </form>
           <p class="rsvp-msg hidden" id="rsvpMsg" role="status" aria-live="polite"></p>
           <div class="rsvp-success-card hidden" id="rsvpSuccess">
@@ -131,13 +487,16 @@
           </div>
         </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 
-  <footer class="site-footer">
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/terms">Terms of Service</a>
-    <span>© <span id="y"></span> Oracy</span>
+  <footer class="footer">
+    <div class="footer-row">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <span>© <span id="y"></span> Oracy</span>
+    </div>
+    <div class="wordmark" aria-hidden="true">Oracy</div>
   </footer>
 
   <script>
@@ -206,6 +565,253 @@
         emailInput.disabled = false
       }
     })
+  </script>
+  <script>
+    (function () {
+      var els = document.querySelectorAll('.reveal')
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('in') })
+        return
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in')
+            io.unobserve(entry.target)
+          }
+        })
+      }, { rootMargin: '0px 0px -8% 0px' })
+      els.forEach(function (el) { io.observe(el) })
+    })()
+  </script>
+  <script>
+    (function () {
+      var root = document.documentElement
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      var clamp = function (v) { return Math.min(1, Math.max(0, v)) }
+      var ease = function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2 }
+
+      /* Tap-to-switch transcript */
+      var seg = document.querySelector('.seg')
+      var transcript = document.getElementById('transcript')
+      var text = transcript.querySelector('.t-text')
+      var fillers = text.querySelectorAll('.fw')
+      var count = function (str) { return str.trim().split(/\s+/).filter(Boolean).length }
+      var rawWords = count(text.textContent)
+      var fillerWords = 0
+      fillers.forEach(function (f) { fillerWords += count(f.textContent) })
+      function setMode(mode) {
+        seg.dataset.mode = mode
+        transcript.dataset.mode = mode
+        seg.querySelectorAll('button').forEach(function (b) {
+          var on = b.dataset.mode === mode
+          b.classList.toggle('on', on)
+          b.setAttribute('aria-pressed', on ? 'true' : 'false')
+        })
+        document.getElementById('tWords').textContent = mode === 'raw' ? rawWords : rawWords - fillerWords
+        document.getElementById('tFillers').textContent = mode === 'raw' ? fillers.length : 0
+      }
+      seg.addEventListener('click', function (e) {
+        var b = e.target.closest('button')
+        if (b) setMode(b.dataset.mode)
+      })
+      setMode('raw')
+
+      if (reduce) {
+        root.classList.add('still')
+        return
+      }
+
+      /* Scroll-pinned scenes */
+      var hero = document.querySelector('.hero3d')
+      var stage = hero.querySelector('.stage')
+      var heroLines = hero.querySelectorAll('h1 span')
+      var heroTime = document.getElementById('heroTime')
+      var heroRing = document.getElementById('heroRing')
+      var story = document.querySelector('.story')
+      var caps = story.querySelectorAll('.cap')
+      var wordCount = document.getElementById('wordCount')
+      var mx = 0
+      var my = 0
+
+      function progress(el) {
+        var r = el.getBoundingClientRect()
+        var total = r.height - window.innerHeight
+        return total > 0 ? clamp(-r.top / total) : 0
+      }
+
+      function update() {
+        ticking = false
+
+        var p = progress(hero)
+        var a = ease(clamp(p / 0.42))
+        var b = ease(clamp((p - 0.5) / 0.38))
+        stage.style.setProperty('--a', a.toFixed(3))
+        stage.style.setProperty('--b', b.toFixed(3))
+        stage.style.setProperty('--ry', (-30 * (1 - a) + 180 * b).toFixed(2) + 'deg')
+        stage.style.setProperty('--rx', (12 * (1 - a)).toFixed(2) + 'deg')
+        stage.style.setProperty('--mx', (mx * 7).toFixed(2) + 'deg')
+        stage.style.setProperty('--my', (-my * 7).toFixed(2) + 'deg')
+        var left = Math.round(60 * (1 - clamp(p / 0.42)))
+        heroTime.textContent = left === 60 ? '1:00' : '0:' + (left < 10 ? '0' : '') + left
+        heroRing.style.strokeDashoffset = (402 * (left / 60)).toFixed(1)
+        heroLines[1].classList.toggle('lit', p > 0.18)
+        heroLines[2].classList.toggle('lit', p > 0.52)
+
+        var q = progress(story)
+        story.style.setProperty('--p', q.toFixed(3))
+        story.style.setProperty('--f', ease(clamp((q - 0.8) / 0.16)).toFixed(3))
+        var step = q < 0.18 ? 0 : q < 0.38 ? 1 : q < 0.58 ? 2 : q < 0.78 ? 3 : 4
+        caps.forEach(function (c, i) { c.classList.toggle('on', i === step) })
+        wordCount.textContent = Math.round(1000 * clamp((q - 0.03) / 0.6))
+      }
+
+      var ticking = false
+      function request() {
+        if (!ticking) {
+          ticking = true
+          window.requestAnimationFrame(update)
+        }
+      }
+
+      window.addEventListener('scroll', request, { passive: true })
+      window.addEventListener('resize', request)
+      if (window.matchMedia('(hover: hover)').matches) {
+        window.addEventListener('pointermove', function (e) {
+          mx = e.clientX / window.innerWidth - 0.5
+          my = e.clientY / window.innerHeight - 0.5
+          request()
+        }, { passive: true })
+      }
+      update()
+    })()
+  </script>
+  <script>
+    (function () {
+      /* 1. Prompt + one-minute timer */
+      var prompts = [
+        'Is money necessary for happiness?',
+        'What makes a good manager?',
+        'Would you rather be rich or famous?',
+        'You wake up on Mars. What do you do?',
+        'Is technological progress always beneficial?',
+        'Social media has made society less social. Agree or disagree?'
+      ]
+      var pi = 0
+      var card = document.getElementById('tryPrompt')
+      var promptText = document.getElementById('promptText')
+      var timerBtn = document.getElementById('timerBtn')
+      var ring = document.getElementById('tryRing')
+      var time = document.getElementById('tryTime')
+      var hint = document.getElementById('timerHint')
+      var tick = null
+      var left = 60
+
+      function paint() {
+        time.textContent = left === 60 ? '1:00' : '0:' + (left < 10 ? '0' : '') + left
+        ring.style.strokeDashoffset = (402 * (left / 60)).toFixed(1)
+      }
+      function stop(message) {
+        clearInterval(tick)
+        tick = null
+        card.classList.remove('running')
+        timerBtn.setAttribute('aria-label', 'Start the one minute timer')
+        hint.textContent = message
+      }
+      function reset(message) {
+        stop(message)
+        left = 60
+        paint()
+      }
+      timerBtn.addEventListener('click', function () {
+        if (tick) {
+          reset('Stopped. Tap to go again.')
+          return
+        }
+        if (left === 0) left = 60
+        card.classList.add('running')
+        timerBtn.setAttribute('aria-label', 'Stop the timer')
+        hint.textContent = 'Go. Say it out loud. Tap to stop.'
+        paint()
+        tick = setInterval(function () {
+          left -= 1
+          paint()
+          if (left <= 0) stop('Time. That was the whole session.')
+        }, 1000)
+      })
+      document.getElementById('shuffleBtn').addEventListener('click', function () {
+        pi = (pi + 1) % prompts.length
+        promptText.classList.remove('pop')
+        void promptText.offsetWidth
+        promptText.textContent = prompts[pi]
+        promptText.classList.add('pop')
+        reset('Tap the timer. Answer out loud.')
+      })
+      paint()
+
+      /* 2. Scores: count up when seen, tap a row for what it means */
+      var scores = document.getElementById('tryScores')
+      var note = document.getElementById('scoreNote')
+      var bars = scores.querySelectorAll('.bar')
+      bars.forEach(function (bar) {
+        bar.addEventListener('click', function () {
+          bars.forEach(function (b) { b.classList.toggle('on', b === bar) })
+          note.textContent = bar.dataset.note
+        })
+      })
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!still && 'IntersectionObserver' in window) {
+        scores.classList.add('wait')
+        new IntersectionObserver(function (entries, io) {
+          if (!entries[0].isIntersecting) return
+          io.disconnect()
+          scores.classList.remove('wait')
+          var start = null
+          function frame(t) {
+            if (start === null) start = t
+            var k = Math.min(1, (t - start) / 1100)
+            var e = 1 - Math.pow(1 - k, 3)
+            scores.querySelectorAll('.num').forEach(function (n) {
+              n.textContent = Math.round(Number(n.dataset.to) * e)
+            })
+            if (k < 1) requestAnimationFrame(frame)
+          }
+          requestAnimationFrame(frame)
+        }, { threshold: 0.5 }).observe(scores)
+      }
+
+      /* 3. Fix it */
+      var fix = document.getElementById('tryFix')
+      var fixBtn = document.getElementById('fixBtn')
+      fixBtn.addEventListener('click', function () {
+        var fixed = fix.classList.toggle('fixed')
+        fixBtn.textContent = fixed ? 'Undo' : 'Fix it'
+        fix.querySelector('.swap-label').textContent = fixed ? 'Try' : 'You said'
+      })
+
+      /* 4. Streak */
+      var days = document.querySelectorAll('#tryStreak .day')
+      var streakNum = document.getElementById('streakNum')
+      var streakLabel = document.getElementById('streakLabel')
+      function countStreak() {
+        var last = -1
+        days.forEach(function (d, i) { if (d.classList.contains('on')) last = i })
+        var n = 0
+        for (var i = last; i >= 0 && days[i].classList.contains('on'); i--) n++
+        streakNum.textContent = n
+        streakLabel.textContent = n === 7 ? 'days. Perfect week.' : 'day streak'
+      }
+      days.forEach(function (d) {
+        d.addEventListener('click', function () {
+          var on = d.classList.toggle('on')
+          d.setAttribute('aria-pressed', on ? 'true' : 'false')
+          countStreak()
+          streakNum.classList.remove('pop')
+          void streakNum.offsetWidth
+          streakNum.classList.add('pop')
+        })
+      })
+    })()
   </script>
 </body>
 </html>
