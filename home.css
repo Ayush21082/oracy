@@ -234,24 +234,136 @@ p {
 
 /* ---------- Video ---------- */
 
+/* The video file is graded so its background equals --paper, so the film sits
+   on the page with no frame. The mask melts its edges in case a screen renders the two
+   colours slightly apart. */
+
 .watch {
-  padding: 0 12px;
+  padding: 10px 0 0;
 }
 
-.watch-frame {
-  max-width: 1120px;
+.watch-stage {
+  position: relative;
+  max-width: 1180px;
   margin: 0 auto;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: var(--white);
-  box-shadow: 0 30px 70px -40px rgba(11, 10, 9, 0.45);
 }
 
-.watch-frame video {
+.watch-video {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
+  background: var(--paper);
+}
+
+.watch-stage.custom .watch-video {
+  cursor: pointer;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent),
+    linear-gradient(transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent),
+    linear-gradient(transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.watch-controls {
+  position: absolute;
+  right: 26px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.watch-note {
+  margin-right: 2px;
+  font-size: 1.35rem;
+  transform: rotate(-3deg);
+  transition: opacity 0.3s ease;
+}
+
+.watch-note.gone {
+  opacity: 0;
+}
+
+.vbtn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: 0 6px 20px -10px rgba(11, 10, 9, 0.45);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.vbtn:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.vbtn:active {
+  transform: scale(0.92);
+}
+
+.vbtn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.vbtn .ico {
+  width: 20px;
+  height: 20px;
+}
+
+.vbtn .ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.vbtn .ring circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.ico-pause,
+.ico-sound,
+.is-playing .ico-play,
+.is-sound .ico-muted {
+  display: none;
+}
+
+.is-playing .ico-pause,
+.is-sound .ico-sound {
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .watch-controls {
+    right: 14px;
+    bottom: 8px;
+    gap: 8px;
+  }
+
+  .vbtn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .watch-note {
+    font-size: 1.15rem;
+  }
 }
 
 /* ---------- Marquee ---------- */
@@ -2197,4 +2309,225 @@ html:not(.js) #wordCount,
   .try-scores .bar em::after {
     transition: none;
   }
+}
+
+/* ---------- Video: big "Sound on" prompt while muted ---------- */
+
+.watch-note {
+  font-size: 2.1rem;
+  margin-right: 6px;
+}
+
+.vbtn-sound {
+  width: auto;
+  height: 58px;
+  padding: 0 26px 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: var(--white);
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.12rem;
+  box-shadow: 0 14px 30px -14px rgba(11, 10, 9, 0.7);
+  animation: soundPulse 2.2s ease-out infinite;
+}
+
+.vbtn-sound .ico {
+  width: 26px;
+  height: 26px;
+}
+
+.vbtn-sound:hover {
+  background: var(--accent);
+  color: var(--white);
+}
+
+@keyframes soundPulse {
+  0% {
+    box-shadow: 0 14px 30px -14px rgba(11, 10, 9, 0.7), 0 0 0 0 rgba(196, 106, 74, 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 14px 30px -14px rgba(11, 10, 9, 0.7), 0 0 0 18px rgba(196, 106, 74, 0);
+  }
+}
+
+/* Once sound is on, it settles back to a small round button. */
+.is-sound .vbtn-sound {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  box-shadow: 0 6px 20px -10px rgba(11, 10, 9, 0.45);
+  animation: none;
+}
+
+.is-sound .vbtn-sound:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.is-sound .vbtn-sound .ico {
+  width: 20px;
+  height: 20px;
+}
+
+.is-sound .vlabel {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .watch-controls {
+    bottom: -58px;
+    right: 14px;
+  }
+
+  .watch {
+    padding-bottom: 62px;
+  }
+
+  .watch-note {
+    font-size: 1.6rem;
+  }
+
+  .vbtn-sound {
+    height: 48px;
+    padding: 0 20px 0 16px;
+    font-size: 1rem;
+  }
+
+  .vbtn-sound .ico {
+    width: 22px;
+    height: 22px;
+  }
+
+  .is-sound .vbtn-sound {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vbtn-sound {
+    animation: none;
+  }
+}
+
+/* Controls sit just under the film so they never cover the drawing. */
+@media (min-width: 861px) {
+  .watch {
+    padding-bottom: 56px;
+  }
+
+  .watch-controls {
+    right: 60px;
+    bottom: -44px;
+  }
+}
+
+/* ================= Custom cursor ================= */
+
+.cur {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  /* White + difference: the dot reads dark on the grey page and light on black,
+     and whatever sits under it stays legible. */
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+.cur-dot {
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  transition: width 0.28s cubic-bezier(0.3, 1.3, 0.5, 1), height 0.28s cubic-bezier(0.3, 1.3, 0.5, 1),
+    margin 0.28s cubic-bezier(0.3, 1.3, 0.5, 1), opacity 0.2s ease, background 0.2s ease;
+}
+
+.cur-dot span {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: var(--white);
+}
+
+.cur-on,
+.cur-on * {
+  cursor: none !important;
+}
+
+.cur-on .cur-dot {
+  opacity: 1;
+}
+
+/* Over links and buttons the dot grows. */
+.cur-hot .cur-dot {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+}
+
+.cur-down .cur-dot {
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+}
+
+.cur-hot.cur-down .cur-dot {
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+}
+
+/* Over the film: a terracotta disc that says what a click will do. */
+.cur-film .cur {
+  mix-blend-mode: normal;
+}
+
+.cur-film .cur-dot {
+  width: 84px;
+  height: 84px;
+  margin: -42px 0 0 -42px;
+  background: var(--accent);
+}
+
+.cur-film.cur-down .cur-dot {
+  width: 70px;
+  height: 70px;
+  margin: -35px 0 0 -35px;
+}
+
+/* With the dot as hover feedback, buttons keep their colour (a colour swap
+   under a difference blend would turn the dot blue). */
+.cur-on .btn:hover,
+.cur-on .chip-btn.wide:hover,
+.cur-on .vbtn-sound:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Typing fields keep the normal text cursor. */
+.cur-on.cur-native input,
+.cur-on.cur-native textarea,
+.cur-on.cur-native select {
+  cursor: text !important;
+}
+
+.cur-native .cur-dot,
+.cur-away .cur-dot {
+  opacity: 0;
 }

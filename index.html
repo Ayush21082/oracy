@@ -102,12 +102,16 @@
       </div>
     </section>
 
-    <section class="watch" id="watch">
-      <div class="watch-frame">
+    <section class="watch" id="watch" aria-label="Oracy in 30 seconds">
+      <div class="watch-stage">
         <video
+          id="demoVideo"
+          class="watch-video"
           controls
+          muted
+          loop
           playsinline
-          preload="none"
+          preload="metadata"
           poster="/media/oracy-demo-poster.jpg"
           width="1280"
           height="720"
@@ -116,6 +120,33 @@
           <source src="/media/oracy-demo.mp4" type="video/mp4" />
           <a href="/media/oracy-demo.mp4">Watch the Oracy video</a>
         </video>
+
+        <div class="watch-controls hidden" id="demoControls">
+          <span class="hand watch-note" id="demoNote">sound on →</span>
+          <button type="button" class="vbtn vbtn-sound" id="demoMute" aria-label="Turn sound on">
+            <svg class="ico ico-muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9.5h3.2L12 5.6v12.8l-4.8-3.9H4z" fill="currentColor" />
+              <path d="M16 9.5l4.5 5M20.5 9.5l-4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" />
+            </svg>
+            <svg class="ico ico-sound" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9.5h3.2L12 5.6v12.8l-4.8-3.9H4z" fill="currentColor" />
+              <path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.6a7.6 7.6 0 0 1 0 10.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" />
+            </svg>
+            <span class="vlabel" aria-hidden="true">Sound on</span>
+          </button>
+          <button type="button" class="vbtn" id="demoPlay" aria-label="Play video">
+            <svg class="ring" viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="22" />
+            </svg>
+            <svg class="ico ico-play" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8.5 5.8v12.4a.8.8 0 0 0 1.2.7l10-6.2a.8.8 0 0 0 0-1.4l-10-6.2a.8.8 0 0 0-1.2.7z" fill="currentColor" />
+            </svg>
+            <svg class="ico ico-pause" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6.5" y="5.5" width="4" height="13" rx="1.2" fill="currentColor" />
+              <rect x="13.5" y="5.5" width="4" height="13" rx="1.2" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -811,6 +842,146 @@
           streakNum.classList.add('pop')
         })
       })
+    })()
+  </script>
+  <script>
+    (function () {
+      var v = document.getElementById('demoVideo')
+      var controls = document.getElementById('demoControls')
+      var stage = v.parentNode
+      var playBtn = document.getElementById('demoPlay')
+      var muteBtn = document.getElementById('demoMute')
+      var note = document.getElementById('demoNote')
+      var ring = playBtn.querySelector('.ring circle')
+      var LEN = 2 * Math.PI * 22
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      var userPaused = still
+      var inView = false
+      var raf = null
+
+      v.removeAttribute('controls')
+      v.muted = true
+      controls.classList.remove('hidden')
+      stage.classList.add('custom')
+      ring.style.strokeDasharray = LEN.toFixed(2)
+      ring.style.strokeDashoffset = LEN.toFixed(2)
+
+      function tryPlay() {
+        var p = v.play()
+        if (p && p.catch) p.catch(function () {})
+      }
+      function drawRing() {
+        var d = v.duration || 0
+        var k = d ? v.currentTime / d : 0
+        ring.style.strokeDashoffset = (LEN * (1 - k)).toFixed(2)
+        raf = v.paused ? null : window.requestAnimationFrame(drawRing)
+      }
+      function sync() {
+        var playing = !v.paused
+        stage.classList.toggle('is-playing', playing)
+        playBtn.setAttribute('aria-label', playing ? 'Pause video' : 'Play video')
+        stage.classList.toggle('is-sound', !v.muted)
+        muteBtn.setAttribute('aria-label', v.muted ? 'Turn sound on' : 'Turn sound off')
+        if (playing && !raf) raf = window.requestAnimationFrame(drawRing)
+      }
+      function toggle() {
+        if (v.paused) {
+          userPaused = false
+          tryPlay()
+        } else {
+          userPaused = true
+          v.pause()
+        }
+      }
+
+      playBtn.addEventListener('click', toggle)
+      v.addEventListener('click', toggle)
+      muteBtn.addEventListener('click', function () {
+        v.muted = !v.muted
+        note.classList.add('gone')
+        if (!v.muted && v.paused) {
+          userPaused = false
+          tryPlay()
+        }
+        sync()
+      })
+      v.addEventListener('play', sync)
+      v.addEventListener('pause', sync)
+      v.addEventListener('volumechange', sync)
+      v.addEventListener('seeked', drawRing)
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          inView = entries[0].isIntersecting
+          if (inView && !userPaused) tryPlay()
+          if (!inView && !v.paused) v.pause()
+        }, { threshold: 0.45 }).observe(v)
+      }
+      sync()
+    })()
+  </script>
+  <script>
+    (function () {
+      /* Custom cursor: one dot that follows the pointer. It grows over anything
+         clickable and becomes a labelled disc over the film.
+         Mouse and trackpad only; touch screens keep their normal behaviour. */
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      var root = document.documentElement
+      var cur = document.createElement('div')
+      var dot = document.createElement('div')
+      var label = document.createElement('span')
+      cur.className = 'cur'
+      dot.className = 'cur-dot'
+      cur.setAttribute('aria-hidden', 'true')
+      dot.appendChild(label)
+      cur.appendChild(dot)
+      document.body.appendChild(cur)
+
+      var x = -100, y = -100, cx = -100, cy = -100
+      var started = false
+      var video = document.getElementById('demoVideo')
+
+      function loop() {
+        var k = still ? 1 : 0.35
+        cx += (x - cx) * k
+        cy += (y - cy) * k
+        cur.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)'
+        window.requestAnimationFrame(loop)
+      }
+      function read(target) {
+        var el = target && target.closest ? target : null
+        var typing = el && el.closest('input, textarea, select')
+        var film = el && el.closest('#demoVideo')
+        var hot = el && el.closest('a, button, summary, label, [role="button"]')
+        root.classList.toggle('cur-native', !!typing)
+        root.classList.toggle('cur-film', !!film)
+        root.classList.toggle('cur-hot', !film && !!hot)
+        label.textContent = film ? (video.paused ? 'Play' : 'Pause') : ''
+      }
+
+      window.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return
+        x = e.clientX
+        y = e.clientY
+        if (!started) {
+          started = true
+          cx = x
+          cy = y
+          root.classList.add('cur-on')
+          window.requestAnimationFrame(loop)
+        }
+        root.classList.remove('cur-away')
+        read(e.target)
+      }, { passive: true })
+      window.addEventListener('pointerdown', function () { root.classList.add('cur-down') })
+      window.addEventListener('pointerup', function () { root.classList.remove('cur-down') })
+      document.addEventListener('mouseleave', function () { root.classList.add('cur-away') })
+      window.addEventListener('blur', function () { root.classList.add('cur-away') })
+      if (video) {
+        video.addEventListener('play', function () { if (root.classList.contains('cur-film')) label.textContent = 'Pause' })
+        video.addEventListener('pause', function () { if (root.classList.contains('cur-film')) label.textContent = 'Play' })
+      }
     })()
   </script>
 </body>
